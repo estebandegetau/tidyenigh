@@ -1,0 +1,7 @@
+bibentry(
+  bibtype  = "Misc",
+  title    = "Encuesta Nacional de Ingresos y Gastos de los Hogares",
+  author   = "INEGI",
+  year     = "2022",
+  url      = "https://www.inegi.org.mx/programas/enigh/nc/2022/"
+)

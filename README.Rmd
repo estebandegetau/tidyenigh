@@ -1,0 +1,44 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# tidyenigh
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of `tidyenigh` is to provide the user with analysis-ready data from  [ENIGH](https://www.inegi.org.mx/programas/enigh/nc/2022/).
+
+Currently under development.
+
+<!-- ## Installation
+
+You can install the development version of tidyenigh from [GitHub](https://github.com/) with:
+
+# ``` r
+# # install.packages("devtools")
+# devtools::install_github("estebandegetau/tidyenigh")
+# ```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+# ```{r example}
+# library(tidyenigh)
+# ## basic example code
+# poblacion_2022
+# ```
+
+ -->

@@ -1,2 +1,8 @@
 ^tidyenigh\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^README\.Rmd$
+^\.csv$
+^README\.qmd$
+^data-raw$
+^\.pdf$
