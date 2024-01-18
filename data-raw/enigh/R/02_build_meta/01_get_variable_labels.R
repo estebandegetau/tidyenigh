@@ -36,6 +36,8 @@ enigh_var_labels <- data_sets |>
 
 #---- Save ---------------------------------------------------------------------
 
+usethis::use_directory(stringr::str_c("data-raw/enigh/data/99_meta/", year))
+
 save(
   enigh_var_labels,
   file = here::here(

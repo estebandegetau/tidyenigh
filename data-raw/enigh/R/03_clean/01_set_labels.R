@@ -220,6 +220,12 @@ handle_numeric <- function(data) {
 
 #---- Set labels ---------------------------------------------------------------
 
+usethis::use_directory(stringr::str_c("data-raw",
+                                      "enigh",
+                                      "data",
+                                      "03_pre_clean",
+                                      year, sep = "/"))
+
 
 for (data_set in enigh_metadata$data_set) {
 
