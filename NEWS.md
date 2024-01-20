@@ -1,4 +1,4 @@
-# tidyenigh (development version)
+# tidyenigh 0.1.0
 
 * Full covcerage of [ENIGH 2022](https://www.inegi.org.mx/programas/enigh/nc/2022/) (in Spanish).
 * Full coverage includes: variable descriptions, factor labels, proper 
