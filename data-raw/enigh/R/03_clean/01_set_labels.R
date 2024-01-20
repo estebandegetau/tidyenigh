@@ -60,13 +60,11 @@ read_data_set <- function(data_set, ...) {
 #'
 #' @return A tibble whose matching factor variables have been labeled.
 set_enigh_val_labels <- function(data, data_set) {
-
   ds_i <- data_set
 
   #' An error occours in "gastoshogar" where documented value labels are "1",
   #' "2", ... but in the data set "01", "02".
-  if(ds_i == "gastoshogar") {
-
+  if (ds_i == "gastoshogar") {
     raw <- raw |>
       mutate(orga_inst = orga_inst |> as.numeric() |> as.character())
 
@@ -79,24 +77,30 @@ set_enigh_val_labels <- function(data, data_set) {
     dplyr::select(!data_set) |>
     tidyr::unnest(value_labels)
 
+  labels_string <- str_c(labels$catalogue, collapse = "|")
+
 
   # Recode as factors
   with_levels <- raw |>
-    dplyr::mutate(
-      dplyr::across(
-        tidyselect::any_of(labels$catalogue),
-        ~ factor(.x,
-                 labels = labels |>
-                   dplyr::filter(catalogue == dplyr::cur_column()) |>
-                   dplyr::pull(descripcion),
-                 levels = labels |>
-                   dplyr::filter(catalogue == dplyr::cur_column()) |>
-                   dplyr::pull(value)
-        )
-      ))
+    dplyr::mutate(dplyr::across(
+      tidyselect::any_of(labels$catalogue),
+      ~ factor(
+        .x,
+        labels = labels |>
+          dplyr::filter(catalogue == dplyr::cur_column()) |>
+          dplyr::pull(descripcion),
+        levels = labels |>
+          dplyr::filter(catalogue == dplyr::cur_column()) |>
+          dplyr::pull(value)
+      )
+    )
+    )
 
   return(with_levels)
 }
+
+
+
 
 set_enigh_var_labels <- function(data, data_set) {
 
@@ -138,14 +142,12 @@ is_dichotomic <- function(vector) {
 }
 
 handle_dichotomic <- function(data) {
-
   data |>
-    dplyr::mutate(
-      dplyr::across(
-        .cols = tidyselect::where(is_dichotomic) & !tidyselect::matches("sexo|_hog|folio|numren"),
-        ~ factor(.x, labels = c("Sí", "No"), levels = c(1, 2))
-      )
-    )
+    dplyr::mutate(dplyr::across(
+      .cols = tidyselect::where(is_dichotomic) &
+        !tidyselect::matches("sexo|_hog|folio|numren"),
+      ~ factor(.x, labels = c("Sí", "No"), levels = c(1, 2))
+    ))
 
 }
 
@@ -217,6 +219,52 @@ handle_numeric <- function(data) {
 
 }
 
+handle_expanded <- function(data, data_set) {
+
+  ds_i <- data_set
+
+  expanded <- data |>
+    select(!(
+      matches("folio|numren|_hog|_id") |
+        where(is.numeric) | where(is.factor) | where(is.logical)
+    )) |>
+    names()
+
+  labels <- enigh_metadata |>
+    dplyr::select(data_set, value_labs) |>
+    dplyr::filter(data_set == ds_i) |>
+    tidyr::unnest(value_labs) |>
+    dplyr::select(!data_set) |>
+    tidyr::unnest(value_labels)
+
+  labels_string <- str_c(labels$catalogue, collapse = "|")
+
+  expanded_vars <- tibble(
+    variable = expanded,
+    catalogue = str_extract(variable, labels_string)
+  ) |>
+    left_join(labels, by = "catalogue", relationship = "many-to-many") |>
+    drop_na() |>
+    mutate(value = value |> as.numeric() |> as.character())
+
+  with_levels <- data |>
+    dplyr::mutate(dplyr::across(
+      tidyselect::any_of(expanded_vars$variable),
+      ~ factor(
+        .x |> as.numeric() |> as.character(),
+        labels = expanded_vars |>
+          dplyr::filter(variable == dplyr::cur_column()) |>
+          dplyr::pull(descripcion),
+        levels = expanded_vars |>
+          dplyr::filter(variable == dplyr::cur_column()) |>
+          dplyr::pull(value)
+      )
+    )
+    )
+
+  return(with_levels)
+
+}
 
 #---- Set labels ---------------------------------------------------------------
 
@@ -225,6 +273,8 @@ usethis::use_directory(stringr::str_c("data-raw",
                                       "data",
                                       "03_pre_clean",
                                       year, sep = "/"))
+
+
 
 
 for (data_set in enigh_metadata$data_set) {
@@ -236,6 +286,7 @@ for (data_set in enigh_metadata$data_set) {
     handle_dichotomic() |>
     handle_single_values() |>
     handle_numeric() |>
+    handle_expanded(data_set) |>
     set_enigh_var_labels(data_set)
 
   assign(data_set, pre_clean)

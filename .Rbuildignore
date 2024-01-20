@@ -6,3 +6,4 @@
 ^README\.qmd$
 ^data-raw$
 ^\.pdf$
+^\.github$

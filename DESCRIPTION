@@ -2,6 +2,7 @@ Package: tidyenigh
 Title: Analysis-Ready [ENIGH](https://www.inegi.org.mx/programas/enigh/nc/2022/) Data
 Version: 0.0.0.9000
 LazyLoad: true
+LazyDataCompression: xz
 Authors@R: 
     person("Esteban", "Degetau", , "estebandegetau@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0004-4095-8819"))
@@ -15,3 +16,5 @@ BugReports: https://github.com/estebandegetau/tidyenigh/issues
 Depends: 
     R (>= 2.10)
 LazyData: true
+Suggests: 
+    labelled

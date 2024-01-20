@@ -1,0 +1,5 @@
+@title Encuesta Nacional de Ingresos y Gastos de los Hogares (ENIGH) 2022
+
+@description Analysis-ready data sets for the 2022 [ENIGH](https://www.inegi.org.mx/programas/enigh/nc/2022/).
+
+
