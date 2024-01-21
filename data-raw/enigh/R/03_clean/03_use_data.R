@@ -47,6 +47,7 @@ for (data_set in enigh_metadata$data_set) {
   assign(name_i, data_i)
 
   save(
+    version = 3,
     list = name_i,
     file = here::here("data", str_c(name_i, ".rda")),
     compress = "xz"
