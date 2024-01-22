@@ -49,7 +49,7 @@ pacman::p_load(here, devtools)
 # Clean
 ._01_set_labels       <- 0
 ._02_check_data_sets  <- 0
-._03_use_data         <- 1
+._03_use_data         <- 0
 
 # Document data
 ._01_write_documentation <- 1
@@ -146,9 +146,6 @@ if (._03_use_data) {
 
 # 4.1 Document data
 if (._01_write_documentation) {
-  rm(list = ls())
-  gc()
-  install()
   source(
     here::here("data-raw", "enigh", "R", "04_document", "01_write_documentation.R"),
     encoding = "UTF-8"
