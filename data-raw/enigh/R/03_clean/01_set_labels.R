@@ -64,11 +64,11 @@ set_enigh_val_labels <- function(data, data_set) {
 
   #' An error occours in "gastoshogar" where documented value labels are "1",
   #' "2", ... but in the data set "01", "02".
-  if (ds_i == "gastoshogar") {
-    raw <- raw |>
-      mutate(orga_inst = orga_inst |> as.numeric() |> as.character())
-
-  }
+  # if (ds_i == "gastoshogar") {
+  #   raw <- raw |>
+  #     mutate(orga_inst = orga_inst |> as.numeric() |> as.character())
+  #
+  # }
 
   labels <- enigh_metadata |>
     dplyr::select(data_set, value_labs) |>
@@ -115,7 +115,8 @@ set_enigh_var_labels <- function(data, data_set) {
   varLabels <- setNames(as.list(labels$label), labels$var)
 
   with_varlabs <- data |>
-    set_variable_labels(.labels = varLabels)
+    set_variable_labels(.labels = varLabels,
+                        .strict = F)
 
   return(with_varlabs)
 

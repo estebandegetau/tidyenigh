@@ -35,7 +35,7 @@ pacman::p_load(here, devtools)
 
 #---- Setup --------------------------------------------------------------------
 
-.year <- 2022
+.year <- 2020
 
 # Open data
 ._01_unzip            <- 0
@@ -43,13 +43,13 @@ pacman::p_load(here, devtools)
 
 # Build meta data
 ._01_get_var_labs     <- 0
-._02_get_val_labs     <- 0
-._03_build_metadata   <- 0
+._02_get_val_labs     <- 1
+._03_build_metadata   <- 1
 
 # Clean
-._01_set_labels       <- 0
-._02_check_data_sets  <- 0
-._03_use_data         <- 0
+._01_set_labels       <- 1
+._02_check_data_sets  <- 1
+._03_use_data         <- 1
 
 # Document data
 ._01_write_documentation <- 1
@@ -147,7 +147,13 @@ if (._03_use_data) {
 # 4.1 Document data
 if (._01_write_documentation) {
   source(
-    here::here("data-raw", "enigh", "R", "04_document", "01_write_documentation.R"),
+    here::here(
+      "data-raw",
+      "enigh",
+      "R",
+      "04_document",
+      "01_write_documentation.R"
+    ),
     encoding = "UTF-8"
   )
 }
