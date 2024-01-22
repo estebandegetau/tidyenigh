@@ -52,7 +52,7 @@ pacman::p_load(here, devtools)
 ._03_use_data         <- 1
 
 # Document data
-._01_write_documentation <- 0
+._01_write_documentation <- 1
 
 #---- Run ----------------------------------------------------------------------
 
@@ -146,6 +146,8 @@ if (._03_use_data) {
 
 # 4.1 Document data
 if (._01_write_documentation) {
+  rm(list = ls())
+  gc()
   install()
   source(
     here::here("data-raw", "enigh", "R", "04_document", "01_write_documentation.R"),
