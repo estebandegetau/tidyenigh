@@ -13,8 +13,8 @@ RoxygenNote: 7.2.3
 URL: https://github.com/estebandegetau/tidyenigh
 BugReports: https://github.com/estebandegetau/tidyenigh/issues
 Depends: 
-    R (>= 4.2)
+    R (>= 4.2.0)
 LazyData: true
 Suggests: 
     labelled
-License: CC BY 4.0
+License: CC0

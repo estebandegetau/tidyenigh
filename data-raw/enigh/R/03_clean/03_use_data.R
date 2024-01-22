@@ -49,7 +49,7 @@ for (data_set in enigh_metadata$data_set) {
   save(
     version = 3,
     list = name_i,
-    file = here::here("data", str_c(name_i, ".rda")),
+    file = here::here("data", str_c(name_i, ".RData")),
     compress = "xz"
   )
 
@@ -57,4 +57,13 @@ for (data_set in enigh_metadata$data_set) {
 
 }
 
-tools::add_datalist(here::here(), force = T)
+# load_pre_clean_data("poblacion", year = year)
+#
+# poblacion_2022 <- poblacion
+#
+# use_data(poblacion_2022,
+#          overwrite = T,
+#          version = 3,
+#          compress = "xz")
+#
+# tools::add_datalist(here::here(), force = T)
