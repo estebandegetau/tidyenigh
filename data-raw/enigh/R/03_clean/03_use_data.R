@@ -57,13 +57,3 @@ for (data_set in enigh_metadata$data_set) {
 
 }
 
-# load_pre_clean_data("poblacion", year = year)
-#
-# poblacion_2022 <- poblacion
-#
-# use_data(poblacion_2022,
-#          overwrite = T,
-#          version = 3,
-#          compress = "xz")
-#
-# tools::add_datalist(here::here(), force = T)
