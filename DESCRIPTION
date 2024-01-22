@@ -17,4 +17,4 @@ Depends:
 LazyData: true
 Suggests: 
     labelled
-License: CC BY 4.0
+License: CC0
