@@ -60,6 +60,28 @@ load(here(
   "enigh_var_labels.RData"
 ))
 
+#---- Manual fixes -------------------------------------------------------------
+
+#' In 2020, the .csv containing value labels for variable `tipoact` in set
+#' `noagro` is faulty. It contains values that do not match the values in the
+#' data set. This piece of code manually fixes this issue, assigning the real
+#' values, gotten in the noagro/diccionario_de_datos/*.csv. Such values do match
+#' those in the data set.
+
+if (.year == 2020) {
+
+  tipoact <- tibble(
+    value = c(1, 2, 3) |> as.character(),
+    descripcion = c("Industrial", "Compra-Venta", "Servicios")
+  )
+
+  pluck(enigh_catalogues, 2, 13, 2, 12) <- tipoact
+
+
+}
+
+
+
 #---- Build metadata -----------------------------------------------------------
 
 enigh_metadata <- data_sets |>
