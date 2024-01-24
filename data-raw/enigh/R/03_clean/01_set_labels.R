@@ -48,6 +48,13 @@ read_data_set <- function(data_set, ...) {
 
   file <- list.files(path, full.names = T)
 
+
+    if(length(file) > 1) {
+
+      file <- file[which(!stringr::str_detect(file, pattern = "bitacora"))]
+
+    }
+
   read_inegi_csv(file, ...)
 
 }

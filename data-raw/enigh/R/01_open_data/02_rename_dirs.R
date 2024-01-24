@@ -55,5 +55,14 @@ dirs |>
       )
     )
 
+#---- Manually rename ----------------------------------------------------------
+
+#' A typo is found in 2018, where the directory for `viviendas` reads `vivienda`.
+#' This causes a problem getting its variable labels, as the function finds it
+#' literally in the official documentation.
 
 
+if (.year == 2018) {
+  file.rename(from = here::here(path, "vivienda"),
+              to = here::here(path, "viviendas"))
+}
