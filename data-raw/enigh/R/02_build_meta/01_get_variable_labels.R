@@ -3,7 +3,7 @@
 #' @name 03_get_var_labs.R
 #'
 #' @description
-#'  Get variable labels for ENIGH data sets and saves them at each data set dir.
+#'  Get variable labels for ENIGH data set and save them at each data set dir.
 #'  Run through 00_run.R.
 #'
 #' @author Esteban Degetau

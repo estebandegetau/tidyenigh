@@ -3,7 +3,8 @@
 #' @name 02_rename_dirs.R
 #'
 #' @description
-#' Rename the directories of the unzipped ENIGH files. Run through 00_run.R
+#' Rename the directories of the unzipped ENIGH files to be usable.
+#' Run through 00_run.R
 #'
 #' @describeIn `year` A year.
 #'
