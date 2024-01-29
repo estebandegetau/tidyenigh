@@ -69,14 +69,10 @@ read_data_set <- function(data_set, ...) {
 
 }
 
-handle_factor_values <- function(x) {
-
-  x |> as.character() |>
-    as_factor() |>
-    as.numeric()
 
 
-}
+
+
 
 #' Set value labels to ENIGH data sets
 #'
@@ -91,19 +87,12 @@ handle_factor_values <- function(x) {
 set_enigh_val_labels <- function(data, data_set) {
   ds_i <- data_set
 
-  # ds_values <- data_set |>
-  #   pull(cur_column()) |> unique() |> na.omit()
-  #
-  # ds_values |> as.numeric()
-
-
-  labels <- enigh_metadata |>
+    labels <- enigh_metadata |>
     dplyr::select(data_set, value_labs) |>
     dplyr::filter(data_set == ds_i) |>
     tidyr::unnest(value_labs) |>
     dplyr::select(!data_set) |>
-    tidyr::unnest(value_labels) |>
-    mutate(value = handle_factor_values(value))
+    tidyr::unnest(value_labels)
 
   labels_string <- stringr::str_c(labels$catalogue, collapse = "|")
 
@@ -167,142 +156,6 @@ set_enigh_var_labels <- function(data, data_set) {
 
 
 
-#' Is an ENIGH variable dichotomic?
-#'
-#' @param x A vector
-#'
-#' @return TRUE if `x` is dichotomic
-is_dichotomic <- function(x) {
-  if (is(x, "factor")) {
-    return(FALSE)
-  }
-
-  vec_uniq <- x |>
-    # Remove NA's
-    na.omit() |>
-    unique() |>
-    sort()
-
-  if (length(vec_uniq) > 2) {
-    return(FALSE)
-  }
-
-
-  return(sum(vec_uniq == c("1", "2"), na.rm = T) == 2)
-
-}
-
-#' Adds factor labels to logical vectors in ENIGH data sets
-#'
-#' @param data An ENIGH data set in tibble format.
-#'
-#' @return A tibble with labelled logical variables.
-#' @export
-handle_dichotomic <- function(data) {
-  data |>
-    dplyr::mutate(dplyr::across(
-      .cols = tidyselect::where(is_dichotomic) &
-        !tidyselect::matches("sexo|_hog|folio|numren"),
-      ~ factor(
-        .x,
-        labels = c("Sí", "No"),
-        levels = c(1, 2)
-      )
-    ))
-
-}
-
-
-#' Is an ENIGH variable single valued?
-#'
-#' @param x A vector
-#'
-#' @return TRUE if `x` holds only one value, other than `NA`.
-is_single_value <- function(x) {
-
-  if(is(x, "factor")) return(FALSE)
-
-  uniq_vals <- x |>
-    na.omit() |>
-    unique() |>
-    length()
-
-  return(uniq_vals == 1)
-
-}
-
-
-
-#' Turn ENIGH single valued variables into logical
-#'
-#' @inheritParams handle_dichotomic
-#'
-#' @return An ENIGH data set with logical variables
-#' @export
-handle_single_values <- function(data) {
-
-  data |>
-    dplyr::mutate(
-      dplyr::across(
-        tidyselect::where(is_single_value),
-        ~ dplyr::case_when(
-          !is.na(.x) ~ T
-        )
-      )
-    )
-
-}
-
-#' Is an ENIGH variable numeric
-#'
-#' @inheritParams is_dichotomic
-#'
-#' @return TRUE if `x` is numeric
-is_numeric <- function(x) {
-
-  if(is(x, "factor")) {return(FALSE)}
-
-
-  as_numeric <- x |>
-    na.omit() |>
-    as.numeric()
-
-  if(any(is.na(as_numeric))) {return(FALSE)}
-
-  max_vec <- x |>
-    na.omit() |>
-    as.numeric() |>
-    max()
-
-  vec_length <- x |>
-    # Remove NA's
-    na.omit() |>
-    unique() |>
-    length()
-
-  return(max_vec > 10 & vec_length > 4)
-
-}
-
-is_numeric_quiet <- purrr::quietly(is_numeric)
-
-#' Turn ENIGH numeric variables into numeric class
-#'
-#' @inheritParams handle_dichotomic
-#'
-#' @return An ENIGH data set with numeric classes
-#' @export
-handle_numeric <- function(data) {
-  data |>
-    dplyr::mutate(dplyr::across(
-      tidyselect::where( ~ is_numeric_quiet(.x) |> pluck("result")) &
-        !tidyselect::matches("folio|numren|_hog|_id"),
-      as.numeric
-    ))
-
-}
-
-
 #' Add factor labels to odd variables in ENIGH
 #'
 #' Some variables are not found by [set_enigh_val_labels()] because their names
@@ -361,11 +214,22 @@ handle_expanded <- function(data, data_set) {
 
 }
 
-nas <- function(data, ...) {
+
+#' Clean an ENIGH data set
+#'
+#' @param data An ENIGH data set in tibble format.
+#' @param data_set A character string with the name of the data set.
+#'
+#' @return A cleaned ENIGH data set in tibble format.
+#' @export
+clean_data_set <- function(data, data_set) {
   data |>
-    summarise(across(everything(),
-                     ~ sum(is.na(.x)))) |>
-    pivot_longer(everything(), ...)
+    set_enigh_val_labels(data_set) |>
+    handle_single_values() |>
+    handle_dichotomic() |>
+    handle_numeric() |>
+    handle_expanded(data_set) |>
+    set_enigh_var_labels(data_set)
 
 }
 
@@ -384,16 +248,24 @@ debug_enigh <- function(name) {
 
 }
 
-clean_data_set <- function(data, data_set) {
+
+
+missing_format <- function(data) {
+
   data |>
-    set_enigh_val_labels(data_set) |>
-    handle_dichotomic() |>
-    handle_single_values() |>
-    handle_numeric() |>
-    handle_expanded(data_set) |>
-    set_enigh_var_labels(data_set)
+    dplyr::select(
+      !tidyselect::matches("folio|numren|_hog|_id")
+    ) |>
+    dplyr::select(
+      where(is.character)
+    ) |>
+    names()
+
+
 
 }
+
+
 
 #---- Set labels ---------------------------------------------------------------
 
@@ -422,12 +294,36 @@ for (data_set in enigh_metadata$data_set) {
   errors <- left_join(raw_nas, preclean_nas) |>
     filter(raw != clean)
 
-  if(nrow(errors) > 0) {
-
+  if (nrow(errors) > 0) {
     errors |> print()
 
-    stop("Errors found. See above.")
-    }
+    stop(
+      str_c(
+        "Cleaning errors found in year ",
+        year,
+        " in data set ",
+        data_set,
+        ". See above for details on differences of NA's."
+      )
+    )
+  }
+
+  no_matches <- pre_clean |>
+    select(!where(has_problems)) |>
+    missing_format()
+
+  if (length(no_matches) > 0) {
+    no_matches |> print()
+    stop(
+      str_c(
+        "Cleaning errors found in year ",
+        year,
+        " in data set ",
+        data_set,
+        ". See above for failed variable matches."
+      )
+    )
+  }
 
   assign(data_set, pre_clean)
 

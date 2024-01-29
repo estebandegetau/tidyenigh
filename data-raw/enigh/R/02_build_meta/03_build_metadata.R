@@ -113,6 +113,62 @@ if(.year == 2018) {
 }
 
 
+
+if(.year == 2022) {
+
+  #' In 2022, data set `poblacion` has columns called `cau_x` that are not matched
+  #' in metadata, as they appear as `causa`
+  pluck(enigh_catalogues, 2, 15, 1, 3) <- c("cau")
+
+  #' In 2022, `agrogasto`: data set variable `clave` is not matched in catalogues
+  #' as it appears as `gastonegocioagro`
+  pluck(enigh_catalogues, 2, 3, 1, 1) <- c("clave")
+
+  # Duplicate `sexo` with the name `sexo_jefe`, inside `concentradohogar`
+  pluck(enigh_catalogues, 2, 5) <- pluck(enigh_catalogues, 2, 5) |>
+    add_row(catalogue = "sexo_jefe",
+            value_labels = list(pluck(enigh_catalogues, 2, 5, 2, 4)))
+
+  pluck(enigh_catalogues, 2, 6, 1, 2) <- c("clave")
+
+  pluck(enigh_catalogues, 2, 7, 1, 5) <- c("clave")
+
+  pluck(enigh_catalogues, 2, 7, 2, 5) <- pluck(enigh_catalogues, 2, 7, 2, 5) |>
+    add_row(
+      value = c("Q001",
+                "Q003",
+                "Q004",
+                "Q005",
+                "Q006",
+                "Q007",
+                "Q009",
+                "Q011",
+                "Q012",
+                "Q013",
+                "Q016"),
+      descripcion = c("Depósitos en cuentas de ahorro, tandas, cajas de ahorro, etcétera",
+                      "Pagos a tarjeta de crédito bancaria o comercial (incluye intereses)",
+                      "Pago de deudas a la empresa donde trabajan y/o a otras personas o instituciones (excluya créditos hipotecarios)",
+                      "Pago de intereses por préstamos recibidos",
+                      "Compra de monedas nacionales o extranjeras, metales preciosos, alhajas, obras de arte, etcétera",
+                      "Seguro de vida capitalizable",
+                      "Compra de casas, condominios, locales o terrenos que no habita el hogar",
+                      "Pago de hipotecas de bienes inmuebles: casas, locales, terrenos, edificios, etcétera",
+                      "Otras erogaciones no consideradas en las preguntas anteriores",
+                      "Compra de maquinaria, equipo, animales destinados a la reproducción, utilizados en negocios del hogar",
+                      "Compra de marcas, patentes y derechos de autor")
+    )
+
+
+  pluck(enigh_catalogues, 2, 8, 1, 4) <- c("clave")
+
+
+}
+
+
+
+
+
 #---- Build metadata -----------------------------------------------------------
 
 enigh_metadata <- data_sets |>
