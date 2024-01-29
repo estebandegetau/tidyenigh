@@ -34,6 +34,8 @@ load(here::here(
 
 #---- Functions ----------------------------------------------------------------
 
+
+
 # Ships all the functions used specifically in 01_set_labels.R in `tidyenigh`
 
 #' Read an ENIGH data set, given its name.
@@ -60,12 +62,19 @@ read_data_set <- function(data_set, ...) {
   file <- list.files(path, full.names = T)
 
 
+
+
+
+
   if (length(file) > 1) {
-    file <- file[which(!stringr::str_detect(file, pattern = "bitacora"))]
+    file <-
+      file[which(!stringr::str_detect(file, pattern = "bitacora"))]
 
   }
 
-  tidyinegi::read_inegi_csv(file, na = c(" ", "", "NA", "&"), ...)
+  tidyinegi::read_inegi_csv(file,
+                            na = c(" ", "", "NA", "&"),
+                            ...)
 
 }
 
@@ -222,24 +231,26 @@ handle_expanded <- function(data, data_set) {
 #'
 #' @return A cleaned ENIGH data set in tibble format.
 #' @export
-clean_data_set <- function(data, data_set) {
+clean_data_set <- function(data, data_set, year) {
   data |>
+    handle_numeric(data_set, year) |>
     set_enigh_val_labels(data_set) |>
+
     handle_single_values() |>
     handle_dichotomic() |>
-    handle_numeric() |>
     handle_expanded(data_set) |>
     set_enigh_var_labels(data_set)
 
 }
 
+# Debugging functions
 debug_enigh <- function(name) {
 
 
 
   tibble(
     raw = raw |> pluck(name),
-    preclean = pre_clean |> pluck(name)
+    preclean = clean |> pluck(name)
   ) |>
     filter(is.na(preclean) != is.na(raw)) |>
     filter(is.na(preclean)) |>
@@ -269,27 +280,23 @@ missing_format <- function(data) {
 
 #---- Set labels ---------------------------------------------------------------
 
-usethis::use_directory(stringr::str_c("data-raw",
-                                      "enigh",
-                                      "data",
-                                      "03_pre_clean",
-                                      year, sep = "/"))
-
-
-
 
 for (data_set in enigh_metadata$data_set) {
 
+  # Read raw data
   raw <- read_data_set(data_set)
 
-  pre_clean <- raw |>
+  # Clean data
+  clean <- raw |>
     clean_data_set(data_set)
 
 
-  # Check value labelling errors
+  # Check  -----
+
+  # Check same number of NA's as
   raw_nas <- raw |> nas(values_to = "raw")
 
-  preclean_nas <- nas(pre_clean, values_to = "clean")
+  preclean_nas <- nas(clean, values_to = "clean")
 
   errors <- left_join(raw_nas, preclean_nas) |>
     filter(raw != clean)
@@ -308,8 +315,9 @@ for (data_set in enigh_metadata$data_set) {
     )
   }
 
-  no_matches <- pre_clean |>
-    select(!where(has_problems)) |>
+  # Check every variable has format
+  no_matches <- clean |>
+    select(!c(where(has_problems), matches("numprod|est_dis|upm|anio_|nr_viv"))) |>
     missing_format()
 
   if (length(no_matches) > 0) {
@@ -325,24 +333,14 @@ for (data_set in enigh_metadata$data_set) {
     )
   }
 
-  assign(data_set, pre_clean)
+  # Check same number of rows
+  stopifnot(nrow(clean) != nrow(raw))
 
-  # Save as assigned name .RData
-  save(
-    list = data_set,
-    file = here::here(
-      "data-raw",
-      "enigh",
-      "data",
-      "03_pre_clean",
-      year,
-      paste0(data_set, ".RData")
-    )
-  )
+  # Check for same number of cols
+  stopifnot(ncol(clean) == ncol(raw))
 
-  # Remove from environment
-  rm(list = data_set)
-  gc()
+  # Save -----
+  use_enigh(clean, data_set, year)
 
 }
 

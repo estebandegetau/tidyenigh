@@ -44,15 +44,13 @@ pacman::p_load(here, devtools)
 # Build meta data
 ._01_get_var_labs        <- 0
 ._02_get_val_labs        <- 0
-._03_build_metadata      <- 1
+._03_build_metadata      <- 0
 
 # Clean
 ._01_set_labels          <- 1
-._02_check_data_sets     <- 0
-._03_use_data            <- 0
 
 # Document data
-._01_write_documentation <- 0
+._01_write_documentation <- 1
 
 #---- Run ----------------------------------------------------------------------
 
@@ -126,21 +124,6 @@ if (._01_set_labels) {
   )
 }
 
-# 3.2 Check data sets
-if (._02_check_data_sets) {
-  source(
-    here::here("data-raw", "enigh", "R", "03_clean", "02_check_data_sets.R"),
-    encoding = "UTF-8"
-  )
-}
-
-# 3.3 Use data
-if (._03_use_data) {
-  source(
-    here::here("data-raw", "enigh", "R", "03_clean", "03_use_data.R"),
-    encoding = "UTF-8"
-  )
-}
 
 # 4. Document data -------------------------------------------------------------
 

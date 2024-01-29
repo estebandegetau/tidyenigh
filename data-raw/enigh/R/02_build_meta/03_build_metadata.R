@@ -76,7 +76,73 @@ load(here(
   "enigh_var_labels.RData"
 ))
 
+#---- Functions ----------------------------------------------------------------
+
+add_q_clave <- function(claves) {
+  claves |>
+    add_row(
+      value = c(
+        "Q001",
+        "Q002",
+        "Q003",
+        "Q004",
+        "Q005",
+        "Q006",
+        "Q007",
+        "Q008",
+        "Q009",
+        "Q010",
+        "Q011",
+        "Q012",
+        "Q013",
+        "Q014",
+        "Q015",
+        "Q016",
+        "Q100"
+      ),
+      descripcion = c(
+        "Depósitos en cuentas de ahorro, tandas, cajas de ahorro, etcétera",
+        "Préstamos a personas ajenas al hogar",
+        "Pagos a tarjeta de crédito bancaria o comercial (incluye intereses)",
+        "Pago de deudas a la empresa donde trabajan y/o a otras personas o instituciones (excluya créditos hipotecarios)",
+        "Pago de intereses por préstamos recibidos",
+        "Compra de monedas nacionales o extranjeras, metales preciosos, alhajas, obras de arte, etcétera",
+        "Seguro de vida capitalizable",
+        "Herencias, dores y legados",
+        "Compra de casas, condominios, locales o terrenos que no habita el hogar",
+        "Compra de terrenos, casas o condominios que habita el hogar",
+        "Pago de hipotecas de bienes inmuebles: casas, locales, terrenos, edificios, etcétera",
+        "Otras erogaciones no consideradas en las preguntas anteriores",
+        "Compra de maquinaria, equipo, animales destinados a la reproducción, utilizados en negocios del hogar",
+        "Balance negativo en negocios del hogar agropecuarios y no agropecuarios",
+        "Compra de valores: cédulas, acciones y bonos",
+        "Compra de marcas, patentes y derechos de autor",
+        "Pago de la vivienda propia que se está pagando"
+      )
+    )
+
+
+
+}
+
 #---- Manual fixes -------------------------------------------------------------
+
+#' Another error was found in 2018 `poblacion` set, in variable `norecib_11`,
+#' as the `norecib` file has a faulty separation character
+
+if(.year == 2018) {
+
+  norecib <- pluck(enigh_catalogues, 2, 10, 2, 17) |>
+    slice_head(n = 9) |>
+    add_row(value = c(10, 11) |> as.character(),
+            descripcion = c("Curandero, hierbero, comadrona, brujo, etcétera",
+                            "Otro"))
+
+  pluck(enigh_catalogues, 2, 10, 2, 17) <- norecib
+
+
+}
+
 
 #' In 2020, the .csv containing value labels for variable `tipoact` in set
 #' `noagro` is faulty. It contains values that do not match the values in the
@@ -96,21 +162,7 @@ if (.year == 2020) {
 
 }
 
-#' Another error was found in 2018 `poblacion` set, in variable `norecib_11`,
-#' as the `norecib` file has a faulty separation character
 
-if(.year == 2018) {
-
-  norecib <- pluck(enigh_catalogues, 2, 10, 2, 17) |>
-    slice_head(n = 9) |>
-    add_row(value = c(10, 11) |> as.character(),
-            descripcion = c("Curandero, hierbero, comadrona, brujo, etcétera",
-                            "Otro"))
-
-  pluck(enigh_catalogues, 2, 10, 2, 17) <- norecib
-
-
-}
 
 
 
@@ -120,9 +172,15 @@ if(.year == 2022) {
   #' in metadata, as they appear as `causa`
   pluck(enigh_catalogues, 2, 15, 1, 3) <- c("cau")
 
+  # Agroconsumo
+  pluck(enigh_catalogues, 2, 2, 1, 3) <- c("codigo")
+
   #' In 2022, `agrogasto`: data set variable `clave` is not matched in catalogues
   #' as it appears as `gastonegocioagro`
   pluck(enigh_catalogues, 2, 3, 1, 1) <- c("clave")
+
+  # Agroproductos
+  pluck(enigh_catalogues, 2, 4, 1, 4) <- c("codigo")
 
   # Duplicate `sexo` with the name `sexo_jefe`, inside `concentradohogar`
   pluck(enigh_catalogues, 2, 5) <- pluck(enigh_catalogues, 2, 5) |>
@@ -134,35 +192,25 @@ if(.year == 2022) {
   pluck(enigh_catalogues, 2, 7, 1, 5) <- c("clave")
 
   pluck(enigh_catalogues, 2, 7, 2, 5) <- pluck(enigh_catalogues, 2, 7, 2, 5) |>
-    add_row(
-      value = c("Q001",
-                "Q003",
-                "Q004",
-                "Q005",
-                "Q006",
-                "Q007",
-                "Q009",
-                "Q011",
-                "Q012",
-                "Q013",
-                "Q016"),
-      descripcion = c("Depósitos en cuentas de ahorro, tandas, cajas de ahorro, etcétera",
-                      "Pagos a tarjeta de crédito bancaria o comercial (incluye intereses)",
-                      "Pago de deudas a la empresa donde trabajan y/o a otras personas o instituciones (excluya créditos hipotecarios)",
-                      "Pago de intereses por préstamos recibidos",
-                      "Compra de monedas nacionales o extranjeras, metales preciosos, alhajas, obras de arte, etcétera",
-                      "Seguro de vida capitalizable",
-                      "Compra de casas, condominios, locales o terrenos que no habita el hogar",
-                      "Pago de hipotecas de bienes inmuebles: casas, locales, terrenos, edificios, etcétera",
-                      "Otras erogaciones no consideradas en las preguntas anteriores",
-                      "Compra de maquinaria, equipo, animales destinados a la reproducción, utilizados en negocios del hogar",
-                      "Compra de marcas, patentes y derechos de autor")
-    )
+    add_q_clave()
+
 
 
   pluck(enigh_catalogues, 2, 8, 1, 4) <- c("clave")
 
+  pluck(enigh_catalogues, 2, 8, 2, 4) <- pluck(enigh_catalogues, 2, 8, 2, 4) |>
+    add_q_clave()
 
+  pluck(enigh_catalogues, 2, 9, 1) <- c("clave")
+
+  # gastoshogar
+  pluck(enigh_catalogues, 2, 7, 1, 6) <- c("inst")
+
+  # ingresos
+  pluck(enigh_catalogues, 2, 11, 1, 2) <- c("clave")
+
+  # noagroimportes
+  pluck(enigh_catalogues, 2, 14, 1, 3) <- c("clave")
 }
 
 
