@@ -321,20 +321,6 @@ debug_enigh <- function(name) {
 
 }
 
-function (data, data_set, year)
-{
-    types <- stringr::str_to_lower(stringr::str_extract(stats::na.omit(dplyr::pull(dplyr::select(tidyr::drop_na(dplyr::filter(readr::read_csv(list.files(here::here("data-raw",
-        "enigh", "data", "02_open", year, data_set, "diccionario_de_datos"),
-        full.names = T), skip = 0, col_types = "c", col_names = F),
-        stringr::str_detect(1, "^\\d+$")), X2), tidyselect::where(is_types)),
-        1)), "[:upper:]"))
-    types <- stats::na.omit(dplyr::case_when(types %in% c("c",
-        "n") ~ types))
-    numeric_vars <- dplyr::pull(dplyr::filter(tibble::tibble(variable = names(data),
-        type = types), type == "n"), numeric_vars)
-    dplyr::mutate(data, dplyr::across(tidyselect::any_of(numeric_vars) &
-        !tidyselect::matches("folio|numren|_hog|_id"), as.numeric))
-}
 
 missing_format <- function(data) {
 
@@ -373,7 +359,7 @@ for (data_set in enigh_metadata$data_set) {
 
   preclean_nas <- nas(clean, values_to = "clean")
 
-  errors <- left_join(raw_nas, preclean_nas) |>
+  errors <- left_join(raw_nas, preclean_nas, by = "name") |>
     filter(raw != clean)
 
   if (nrow(errors) > 0) {
@@ -392,7 +378,8 @@ for (data_set in enigh_metadata$data_set) {
 
   # Check every variable has format
   no_matches <- clean |>
-    select(!c(where(has_problems), matches("numprod|est_dis|upm|anio_|nr_viv|id_"))) |>
+    select(!c(where(has_problems),
+              matches("numprod|est_dis|upm|anio_|nr_viv|id_|prob_anio|soc_|_dueno"))) |>
     missing_format()
 
   if (length(no_matches) > 0) {

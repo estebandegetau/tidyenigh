@@ -78,6 +78,43 @@ load(here(
 
 #---- Functions ----------------------------------------------------------------
 
+clean_variable_tag <- function(data,
+                               old_tag,
+                               new_tag,
+
+                               data_set = "all") {
+  data_set_i <- data_set
+
+  if (data_set_i == "all") {
+    data |>
+      unnest(value_labs) |>
+      mutate(catalogue = case_when(str_detect(catalogue, old_tag) ~ new_tag,
+                                   TRUE ~ catalogue)) |>
+      nest(value_labs = !data_set)
+
+
+  } else {
+    new_labels <- data |>
+      unnest(value_labs) |>
+      filter(data_set_i == data_set &
+               str_detect(catalogue, old_tag)) |>
+      mutate(case_when(str_detect(catalogue, old_tag) ~ new_tag,
+                       TRUE ~ catalogue))
+
+
+    data |>
+      unnest(value_labs) |>
+      add_row(
+        data_set = data_set_i,
+        catalogue = new_tag,
+        value_labels = new_labels$value_labels
+      ) |>
+      nest(value_labs = !data_set)
+
+  }
+
+}
+
 add_q_clave <- function(claves) {
   claves |>
     add_row(
@@ -127,54 +164,6 @@ add_q_clave <- function(claves) {
 
 #---- Generalize ---------------------------------------------------------------
 
-clean_variable_tag <- function(data,
-                               old_tag,
-                               new_tag,
-                               year = "all",
-                               data_set = "all") {
-  data_set_i <- data_set
-
-  if ((year == "all" | as.character(.year) %in% year)) {
-    if (data_set_i == "all") {
-      data |>
-        unnest(value_labs) |>
-        mutate(catalogue = case_when(
-          str_detect(catalogue, old_tag) ~ str_replace(catalogue, old_tag, new_tag),
-          TRUE ~ catalogue
-        )) |>
-        nest(value_labs = !data_set)
-
-
-    } else {
-
-      new_labels <- data |>
-        unnest(value_labs) |>
-        filter(data_set_i == data_set & str_detect(catalogue, old_tag)) |>
-        mutate(case_when(
-          str_detect(catalogue, old_tag) ~ new_tag,
-          TRUE ~ catalogue
-        ))
-
-
-      data |>
-        unnest(value_labs) |>
-        add_row(data_set = data_set_i,
-                catalogue = new_tag,
-                value_labels = new_labels$value_labels) |>
-        nest(value_labs = !data_set)
-
-    }
-
-
-
-
-
-  } else {
-    data
-  }
-
-}
-
 enigh_catalogues <- enigh_catalogues |>
   clean_variable_tag(old_tag = "causa_no_cosecha",
                      new_tag = "nocos") |>
@@ -186,14 +175,54 @@ enigh_catalogues <- enigh_catalogues |>
                      data_set = "poblacion") |>
   clean_variable_tag(old_tag = "productoagricola",
                      new_tag = "codigo") |>
-  clean_variable_tag(old_tag = "gastonegocioagro|producto|gastos|gastoscontarjeta|ingresos_cat|noagro_y_gastos",
+  clean_variable_tag(old_tag = "gastonegocioagro|producto|gastos|gastoscontarjeta|ingresos_cat|noagro_y_gastos|clavecontarjeta",
                      new_tag = "clave") |>
   clean_variable_tag(old_tag = "inst_salud",
-                     new_tag = "inst")
-
-
+                     new_tag = "inst") |>
+  clean_variable_tag(old_tag = "si_no_nosabe",
+                     new_tag = "diconsa")
 
 #---- Manual fixes -------------------------------------------------------------
+
+if(.year == 2022) {
+
+
+
+  # Manual fixes
+  pluck(enigh_catalogues, 2, 5) <- pluck(enigh_catalogues, 2, 5) |>
+    add_row(catalogue = "sexo_jefe",
+            value_labels = list(pluck(enigh_catalogues, 2, 5, 2, 4)))
+
+  pluck(enigh_catalogues, 2, 7, 2, 5) <- pluck(enigh_catalogues, 2, 7, 2, 5) |>
+    add_q_clave()
+
+
+  pluck(enigh_catalogues, 2, 8, 2, 4) <- pluck(enigh_catalogues, 2, 8, 2, 4) |>
+    add_q_clave()
+
+  # Hogares, diconsa
+  pluck(enigh_catalogues, 2, 10, 2, 9, 1, 3) <- c("9")
+
+
+}
+
+
+if (.year == 2020) {
+
+  tipoact <- tibble(
+    value = c(1, 2, 3) |> as.character(),
+    descripcion = c("Industrial", "Compra-Venta", "Servicios")
+  )
+
+  pluck(enigh_catalogues, 2, 13, 2, 12) <- tipoact
+
+
+}
+
+
+
+
+
 
 #' Another error was found in 2018 `poblacion` set, in variable `norecib_11`,
 #' as the `norecib` file has a faulty separation character
@@ -212,74 +241,12 @@ if(.year == 2018) {
 }
 
 
-#' In 2020, the .csv containing value labels for variable `tipoact` in set
-#' `noagro` is faulty. It contains values that do not match the values in the
-#' data set. This piece of code manually fixes this issue, assigning the real
-#' values, gotten in the noagro/diccionario_de_datos/*.csv. Such values do match
-#' those in the data set.
-
-if (.year == 2020) {
-
-  tipoact <- tibble(
-    value = c(1, 2, 3) |> as.character(),
-    descripcion = c("Industrial", "Compra-Venta", "Servicios")
-  )
-
-  pluck(enigh_catalogues, 2, 13, 2, 12) <- tipoact
-
-
-}
 
 
 
 
 
-if(.year == 2022) {
 
-  #' In 2022, data set `poblacion` has columns called `cau_x` that are not matched
-  #' in metadata, as they appear as `causa`
-  # pluck(enigh_catalogues, 2, 15, 1, 3) <- c("cau")
-
-  # Agroconsumo
-  # pluck(enigh_catalogues, 2, 2, 1, 3) <- c("codigo")
-
-  #' In 2022, `agrogasto`: data set variable `clave` is not matched in catalogues
-  #' as it appears as `gastonegocioagro`
-  # pluck(enigh_catalogues, 2, 3, 1, 1) <- c("clave")
-
-  # Agroproductos
-  # pluck(enigh_catalogues, 2, 4, 1, 4) <- c("codigo")
-
-  # Duplicate `sexo` with the name `sexo_jefe`, inside `concentradohogar`
-  pluck(enigh_catalogues, 2, 5) <- pluck(enigh_catalogues, 2, 5) |>
-    add_row(catalogue = "sexo_jefe",
-            value_labels = list(pluck(enigh_catalogues, 2, 5, 2, 4)))
-
-  # pluck(enigh_catalogues, 2, 6, 1, 2) <- c("clave")
-
-  # pluck(enigh_catalogues, 2, 7, 1, 5) <- c("clave")
-
-  pluck(enigh_catalogues, 2, 7, 2, 5) <- pluck(enigh_catalogues, 2, 7, 2, 5) |>
-    add_q_clave()
-
-
-
-  # pluck(enigh_catalogues, 2, 8, 1, 4) <- c("clave")
-
-  pluck(enigh_catalogues, 2, 8, 2, 4) <- pluck(enigh_catalogues, 2, 8, 2, 4) |>
-    add_q_clave()
-
-  # pluck(enigh_catalogues, 2, 9, 1) <- c("clave")
-
-  # gastoshogar
-  # pluck(enigh_catalogues, 2, 7, 1, 6) <- c("inst")
-
-  # ingresos
-  # pluck(enigh_catalogues, 2, 11, 1, 2) <- c("clave")
-
-  # noagroimportes
-  # pluck(enigh_catalogues, 2, 14, 1, 3) <- c("clave")
-}
 
 
 
