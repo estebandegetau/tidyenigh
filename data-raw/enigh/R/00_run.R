@@ -44,13 +44,13 @@ pacman::p_load(here, devtools)
 # Build meta data
 ._01_get_var_labs        <- 0
 ._02_get_val_labs        <- 0
-._03_build_metadata      <- 0
+._03_build_metadata      <- 1
 
 # Clean
 ._01_set_labels          <- 1
 
 # Document data
-._01_write_documentation <- 1
+._01_write_documentation <- 0
 
 #---- Run ----------------------------------------------------------------------
 

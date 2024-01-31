@@ -78,9 +78,72 @@ read_data_set <- function(data_set, ...) {
 
 }
 
+is_types <- function(x) {
+
+  matches_expr <- x |>
+    stringr::str_detect("[:upper:] \\(") |>
+    sum(na.rm = T)
+
+  return(matches_expr == length(x))
+
+}
+
+#' Turn ENIGH numeric variables into numeric class
+#'
+#' @param data An ENIGH data set
+#' @param data_set The name of the ENIGH data set
+#' @param year Year of ENIGH survey
+#'
+#' @return An ENIGH data set with numeric classes
+#' @export
+handle_numeric <- function(data) {
+
+  # Column types
+  types <- readr::read_csv(
+    list.files(
+      here::here(
+        "data-raw",
+        "enigh",
+        "data",
+        "02_open",
+        year,
+        data_set,
+        "diccionario_de_datos"
+      ),
+      full.names = T
+    ),
+    skip = 0,
+    col_types = "c",
+    col_names = F
+  ) |>
+
+    dplyr::filter(stringr::str_detect(X1, "^\\d+$")) |>
+    tidyr::drop_na(X2) |>
+    dplyr::select(tidyselect::where(is_types)) |>
+    dplyr::pull(1) |>
+    stats::na.omit() |>
+    stringr::str_extract("[:upper:]") |>
+    stringr::str_to_lower()
+
+  types <- dplyr::case_when(
+    types %in% c("c", "n") ~ types
+  ) |>
+    stats::na.omit()
 
 
+  numeric_vars <- tibble::tibble(variable = names(data),
+                                 type = types) |>
+    dplyr::filter(type == "n") |>
+    dplyr::pull(variable)
 
+  data |>
+    dplyr::mutate(
+      dplyr::across(
+        tidyselect::all_of(numeric_vars),
+        as.numeric
+    ))
+
+}
 
 
 #' Set value labels to ENIGH data sets
@@ -96,7 +159,7 @@ read_data_set <- function(data_set, ...) {
 set_enigh_val_labels <- function(data, data_set) {
   ds_i <- data_set
 
-    labels <- enigh_metadata |>
+  labels <- enigh_metadata |>
     dplyr::select(data_set, value_labs) |>
     dplyr::filter(data_set == ds_i) |>
     tidyr::unnest(value_labs) |>
@@ -107,7 +170,7 @@ set_enigh_val_labels <- function(data, data_set) {
 
 
   # Recode as factors
-  with_levels <- raw |>
+  with_levels <- data |>
     dplyr::mutate(
       dplyr::across(
         tidyselect::any_of(labels$catalogue),
@@ -195,7 +258,7 @@ handle_expanded <- function(data, data_set) {
     dplyr::select(!data_set) |>
     tidyr::unnest(value_labels)
 
-  labels_string <- stringr::str_c(labels$catalogue, collapse = "|")
+  labels_string <- stringr::str_c(labels$catalogue |> unique(), collapse = "|")
 
   expanded_vars <- tibble::tibble(
     variable = expanded,
@@ -233,9 +296,8 @@ handle_expanded <- function(data, data_set) {
 #' @export
 clean_data_set <- function(data, data_set, year) {
   data |>
-    handle_numeric(data_set, year) |>
+    handle_numeric() |>
     set_enigh_val_labels(data_set) |>
-
     handle_single_values() |>
     handle_dichotomic() |>
     handle_expanded(data_set) |>
@@ -259,7 +321,20 @@ debug_enigh <- function(name) {
 
 }
 
-
+function (data, data_set, year)
+{
+    types <- stringr::str_to_lower(stringr::str_extract(stats::na.omit(dplyr::pull(dplyr::select(tidyr::drop_na(dplyr::filter(readr::read_csv(list.files(here::here("data-raw",
+        "enigh", "data", "02_open", year, data_set, "diccionario_de_datos"),
+        full.names = T), skip = 0, col_types = "c", col_names = F),
+        stringr::str_detect(1, "^\\d+$")), X2), tidyselect::where(is_types)),
+        1)), "[:upper:]"))
+    types <- stats::na.omit(dplyr::case_when(types %in% c("c",
+        "n") ~ types))
+    numeric_vars <- dplyr::pull(dplyr::filter(tibble::tibble(variable = names(data),
+        type = types), type == "n"), numeric_vars)
+    dplyr::mutate(data, dplyr::across(tidyselect::any_of(numeric_vars) &
+        !tidyselect::matches("folio|numren|_hog|_id"), as.numeric))
+}
 
 missing_format <- function(data) {
 
@@ -317,7 +392,7 @@ for (data_set in enigh_metadata$data_set) {
 
   # Check every variable has format
   no_matches <- clean |>
-    select(!c(where(has_problems), matches("numprod|est_dis|upm|anio_|nr_viv"))) |>
+    select(!c(where(has_problems), matches("numprod|est_dis|upm|anio_|nr_viv|id_"))) |>
     missing_format()
 
   if (length(no_matches) > 0) {
@@ -334,7 +409,7 @@ for (data_set in enigh_metadata$data_set) {
   }
 
   # Check same number of rows
-  stopifnot(nrow(clean) != nrow(raw))
+  stopifnot(nrow(clean) == nrow(raw))
 
   # Check for same number of cols
   stopifnot(ncol(clean) == ncol(raw))
