@@ -35,7 +35,7 @@ pacman::p_load(here, devtools)
 
 #---- Setup --------------------------------------------------------------------
 
-.year <- 2022
+.year <- 2020
 
 # Open data
 ._01_unzip               <- 0
@@ -44,10 +44,10 @@ pacman::p_load(here, devtools)
 # Build meta data
 ._01_get_var_labs        <- 0
 ._02_get_val_labs        <- 0
-._03_build_metadata      <- 0
+._03_build_metadata      <- 1
 
 # Clean
-._01_set_labels          <- 0
+._01_set_labels          <- 1
 
 # Document data
 ._01_write_documentation <- 1

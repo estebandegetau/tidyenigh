@@ -164,7 +164,8 @@ set_enigh_val_labels <- function(data, data_set) {
     dplyr::filter(data_set == ds_i) |>
     tidyr::unnest(value_labs) |>
     dplyr::select(!data_set) |>
-    tidyr::unnest(value_labels)
+    tidyr::unnest(value_labels) |>
+    mutate(value = handle_factor_values(value), .by = catalogue)
 
   labels_string <- stringr::str_c(labels$catalogue, collapse = "|")
 
@@ -317,6 +318,7 @@ debug_enigh <- function(name) {
     filter(is.na(preclean) != is.na(raw)) |>
     filter(is.na(preclean)) |>
     distinct() |>
+    arrange(1)
     view()
 
 }
@@ -379,7 +381,7 @@ for (data_set in enigh_metadata$data_set) {
   # Check every variable has format
   no_matches <- clean |>
     select(!c(where(has_problems),
-              matches("numprod|est_dis|upm|anio_|nr_viv|id_|prob_anio|soc_|_dueno"))) |>
+              matches("numprod|est_dis|upm|anio_|nr_viv|id_|prob_anio|soc_|_dueno|ubica_geo"))) |>
     missing_format()
 
   if (length(no_matches) > 0) {
