@@ -223,6 +223,7 @@ add_catalogue <- function(data, catalogue) {
     unnest(value_labs) |>
     unnest(value_labels) |>
     bind_rows(catalogue) |>
+    distinct() |>
     nest(value_labels = !c(data_set, catalogue)) |>
     nest(value_labs = !data_set)
 
@@ -304,36 +305,9 @@ enigh_catalogues <- enigh_catalogues |>
 
 
 
-# if (.year == 2020) {
-#
-#
-#   tipoact <- tibble(
-#     value = c(1, 2, 3) |> as.character(),
-#     descripcion = c("Industrial", "Compra-Venta", "Servicios")
-#   )
-#
-#   pluck(enigh_catalogues, 2, 13, 2, 12) <- tipoact
-#
-#
-# }
-
-
-
-
-
-
-#' Another error was found in 2018 `poblacion` set, in variable `norecib_11`,
-#' as the `norecib` file has a faulty separation character
-
 if(.year == 2018) {
 
-  # norecib <- pluck(enigh_catalogues, 2, 10, 2, 17) |>
-  #   slice_head(n = 9) |>
-  #   add_row(value = c(10, 11) |> as.character(),
-  #           descripcion = c("Curandero, hierbero, comadrona, brujo, etcétera",
-  #                           "Otro"))
-  #
-  # pluck(enigh_catalogues, 2, 10, 2, 17) <- norecib
+
 
   lenguaind <- tibble(
     data_set = "poblacion",
@@ -366,7 +340,38 @@ if(.year == 2018) {
 
 }
 
+if(.year == 2016) {
 
+
+  load(here::here(
+    "data-raw",
+    "enigh",
+    "data",
+    "99_meta",
+    "2022",
+    "enigh_metadata.RData"
+  ))
+
+  clave <- enigh_metadata |>
+    unnest(value_labs) |>
+    filter(data_set == "gastoshogar" & catalogue == "clave") |>
+    unnest(value_labels) |>
+    select(data_set, catalogue, value, descripcion)
+
+  enigh_catalogues <- enigh_catalogues |>
+    add_catalogue(clave)
+
+  clave <- enigh_metadata |>
+    unnest(value_labs) |>
+    filter(data_set == "gastospersona" & catalogue == "clave") |>
+    unnest(value_labels) |>
+    select(data_set, catalogue, value, descripcion)
+
+  enigh_catalogues <- enigh_catalogues |>
+    add_catalogue(clave)
+
+
+}
 
 
 
