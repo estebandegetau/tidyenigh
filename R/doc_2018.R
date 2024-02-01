@@ -1,53 +1,53 @@
-#' @rdname agro_2022
-"agro_2018"
+#' @rdname agro2022
+"agro2018"
 
-#' #' @rdname agroconsumo_2022
-#' "agroconsumo_2018"
+#' #' @rdname agroconsumo2022
+#' "agroconsumo2018"
 #'
-#' #' @rdname agrogasto_2022
-#' "agrogasto_2018"
+#' #' @rdname agrogasto2022
+#' "agrogasto2018"
 
-#' #' @rdname agroproductos_2022
-#' "agroproductos_2018"
+#' #' @rdname agroproductos2022
+#' "agroproductos2018"
 
-#' @rdname concentradohogar_2022
-"concentradohogar_2018"
+#' @rdname concentradohogar2022
+"concentradohogar2018"
 
-#' @rdname enigh_documentation_2022
-"enigh_documentation_2018"
+#' @rdname enigh_documentation2022
+"enigh_documentation2018"
 
-#' @rdname erogaciones_2022
-"erogaciones_2018"
+#' @rdname erogaciones2022
+"erogaciones2018"
 
-#' @rdname gastoshogar_2022
-"gastoshogar_2018"
+#' @rdname gastoshogar2022
+"gastoshogar2018"
 
-#' @rdname gastospersona_2022
-"gastospersona_2018"
+#' @rdname gastospersona2022
+"gastospersona2018"
 
-#' @rdname gastotarjetas_2022
-"gastotarjetas_2018"
+#' @rdname gastotarjetas2022
+"gastotarjetas2018"
 
-#' @rdname hogares_2022
-"hogares_2018"
+#' @rdname hogares2022
+"hogares2018"
 
-#' @rdname ingresos_2022
-"ingresos_2018"
+#' @rdname ingresos2022
+"ingresos2018"
 
-#' #' @rdname ingresos_jcf_2022
-#' "ingresos_jcf_2018"
+#' #' @rdname ingresos_jcf2022
+#' "ingresos_jcf2018"
 
-#' @rdname noagro_2022
-"noagro_2018"
+#' @rdname noagro2022
+"noagro2018"
 
-#' #' @rdname noagroimportes_2022
-#' "noagroimportes_2018"
+#' #' @rdname noagroimportes2022
+#' "noagroimportes2018"
 
-#' @rdname poblacion_2022
-"poblacion_2018"
+#' @rdname poblacion2022
+"poblacion2018"
 
-#' @rdname trabajos_2022
-"trabajos_2018"
+#' @rdname trabajos2022
+"trabajos2018"
 
-#' @rdname viviendas_2022
-"viviendas_2018"
+#' @rdname viviendas2022
+"viviendas2018"

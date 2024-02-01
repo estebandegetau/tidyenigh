@@ -97,39 +97,78 @@ is_types <- function(x) {
 #' @return An ENIGH data set with numeric classes
 #' @export
 handle_numeric <- function(data) {
+  file <- list.files(
+    here::here(
+      "data-raw",
+      "enigh",
+      "data",
+      "02_open",
+      year,
+      data_set,
+      "diccionario_de_datos"
+    ),
+    full.names = T
+  )
+
 
   # Column types
-  types <- readr::read_csv(
-    list.files(
-      here::here(
-        "data-raw",
-        "enigh",
-        "data",
-        "02_open",
-        year,
-        data_set,
-        "diccionario_de_datos"
-      ),
-      full.names = T
-    ),
-    skip = 0,
-    col_types = "c",
-    col_names = F
-  ) |>
+  # CSV mistake correction
+  if(.year == 2018 & data_set == "poblacion") {
 
-    dplyr::filter(stringr::str_detect(X1, "^\\d+$")) |>
-    tidyr::drop_na(X2) |>
-    dplyr::select(tidyselect::where(is_types)) |>
-    dplyr::pull(1) |>
-    stats::na.omit() |>
-    stringr::str_extract("[:upper:]") |>
-    stringr::str_to_lower()
+    types <- readr::read_csv(
+      file,
+      skip = 0,
+      col_types = "c",
+      col_names = F
+    ) |>
+
+      dplyr::filter(stringr::str_detect(X1, "^\\d+$")) |>
+      tidyr::drop_na(X2) |>
+      mutate(
+        x4 = case_when(
+          X1 == "81" ~ "N (3)",
+          T ~ X4
+        )
+      ) |>
+      dplyr::select(tidyselect::where(is_types)) |>
+      dplyr::pull(1) |>
+      stats::na.omit() |>
+      stringr::str_extract("[:upper:]") |>
+      stringr::str_to_lower()
+
+
+
+
+  } else {
+
+    types <- readr::read_csv(
+      file,
+      skip = 0,
+      col_types = "c",
+      col_names = F
+    ) |>
+
+      dplyr::filter(stringr::str_detect(X1, "^\\d+$")) |>
+      tidyr::drop_na(X2) |>
+      dplyr::select(tidyselect::where(is_types)) |>
+      dplyr::pull(1) |>
+      stats::na.omit() |>
+      stringr::str_extract("[:upper:]") |>
+      stringr::str_to_lower()
+
+  }
+
 
   types <- dplyr::case_when(
     types %in% c("c", "n") ~ types
   ) |>
     stats::na.omit()
 
+  if(.year == 2018 & data_set == "viviendas") {
+
+    types[64] <- "c"
+
+  }
 
   numeric_vars <- tibble::tibble(variable = names(data),
                                  type = types) |>
@@ -318,7 +357,7 @@ debug_enigh <- function(name) {
     filter(is.na(preclean) != is.na(raw)) |>
     filter(is.na(preclean)) |>
     distinct() |>
-    arrange(1)
+    arrange(raw) |>
     view()
 
 }

@@ -78,6 +78,31 @@ load(here(
 
 #---- Functions ----------------------------------------------------------------
 
+filter_variables <- function(data) {
+
+  data |>
+    unnest(value_labs) |>
+    mutate(cols = map_int(value_labels, ncol)) |>
+    filter(cols == 2) |>
+    select(-cols) |>
+    nest(value_labs = !data_set)
+
+
+}
+
+remove_catalogue_cols <- function(data) {
+
+  data |>
+    unnest(value_labs) |>
+    unnest(value_labels) |>
+    select(data_set, catalogue, value, descripcion) |>
+    nest(value_labels = !c(data_set, catalogue)) |>
+    nest(value_labs = !data_set)
+
+
+}
+
+
 clean_variable_tag <- function(data,
                                old_tag,
                                new_tag,
@@ -169,7 +194,7 @@ add_missing_levels <- function(data, data_set, variable) {
 
   data |>
     unnest(value_labs) |>
-    filter(!(catalogue == "ubica_geo")) |>
+    filter(!str_detect(catalogue, "ubica_geo|ubic_geo|bitacora_de_cambios")) |>
     unnest(value_labels) |>
     bind_rows(new_labs) |>
     nest(value_labels = !c(data_set, catalogue)) |>
@@ -215,7 +240,6 @@ fix_tipoact <- function(data) {
   data |>
     unnest(value_labs) |>
     unnest(value_labels) |>
-    filter(!( data_set == "noagro" & catalogue == "tipoact")) |>
     bind_rows(tipoact) |>
     nest(value_labels = !c(data_set, catalogue)) |>
     nest(value_labs = !data_set)
@@ -235,6 +259,9 @@ usotiempo <- tibble(
 #---- Generalize ---------------------------------------------------------------
 
 enigh_catalogues <- enigh_catalogues |>
+  filter_variables() |>
+
+  # Clean variable tags
   clean_variable_tag(old_tag = "causa_no_cosecha",
                      new_tag = "nocos") |>
   clean_variable_tag(old_tag = "fecha",
@@ -253,13 +280,25 @@ enigh_catalogues <- enigh_catalogues |>
                      new_tag = "diconsa") |>
   clean_variable_tag(old_tag = "sexo",
                      new_tag = "sexo_jefe") |>
+  # 2018
+  clean_variable_tag(old_tag = "mes",
+                     new_tag = "mesproc") |>
+  clean_variable_tag(old_tag = "mes",
+                     new_tag = "mesprogan") |>
+
+  # Add missing levels
   add_missing_levels(data_set = "gastoshogar",
                      variable = "clave") |>
   add_missing_levels(data_set = "gastospersona",
                      variable = "clave") |>
+
+  # Fix broken labels
   fix_diconsa_labs() |>
   fix_tipoact() |>
-  add_catalogue(usotiempo)
+
+  # Add missing catalogues
+  add_catalogue(usotiempo) |>
+  remove_catalogue_cols()
 
 #---- Manual fixes -------------------------------------------------------------
 
@@ -286,18 +325,46 @@ enigh_catalogues <- enigh_catalogues |>
 #' Another error was found in 2018 `poblacion` set, in variable `norecib_11`,
 #' as the `norecib` file has a faulty separation character
 
-# if(.year == 2018) {
-#
-#   norecib <- pluck(enigh_catalogues, 2, 10, 2, 17) |>
-#     slice_head(n = 9) |>
-#     add_row(value = c(10, 11) |> as.character(),
-#             descripcion = c("Curandero, hierbero, comadrona, brujo, etcétera",
-#                             "Otro"))
-#
-#   pluck(enigh_catalogues, 2, 10, 2, 17) <- norecib
-#
-#
-# }
+if(.year == 2018) {
+
+  # norecib <- pluck(enigh_catalogues, 2, 10, 2, 17) |>
+  #   slice_head(n = 9) |>
+  #   add_row(value = c(10, 11) |> as.character(),
+  #           descripcion = c("Curandero, hierbero, comadrona, brujo, etcétera",
+  #                           "Otro"))
+  #
+  # pluck(enigh_catalogues, 2, 10, 2, 17) <- norecib
+
+  lenguaind <- tibble(
+    data_set = "poblacion",
+    catalogue = "lenguaind",
+    value = c("962", "5504", "5603", "5023"),
+    descripcion = "Otro no especificado"
+  )
+
+  sinco <- tibble(
+    data_set = "trabajos",
+    catalogue = "sinco",
+    value = c(2233, 2234, 2649, 2814, 3999, 6999) |> as.character(),
+    descripcion = "Otro"
+  )
+
+  scian <- tibble(
+    data_set = "trabajos",
+    catalogue = "scian",
+    value = c(2199, 4899, 5199, 5229, 5299, 7133) |> as.character(),
+    descripcion = "Otro"
+  )
+
+  enigh_catalogues <- enigh_catalogues |>
+    add_catalogue(lenguaind) |>
+    add_catalogue(sinco) |>
+    add_catalogue(scian)
+
+
+
+
+}
 
 
 
