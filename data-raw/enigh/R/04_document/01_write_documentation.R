@@ -18,7 +18,7 @@ gc()
 
 #---- Libraries ----------------------------------------------------------------
 
-pacman::p_load(here, tidyinegi)
+pacman::p_load(here, tidyinegi, tidyverse)
 
 #---- Setup --------------------------------------------------------------------
 
@@ -35,20 +35,18 @@ load(here::here(
 ))
 
 # List data sets in pre clean dir
-pre_clean_path <- here::here(
-  "data-raw",
-  "enigh",
-  "data",
-  "03_pre_clean",
-  year
-)
+data <- here::here("data")
+
+enigh_metadata <- enigh_metadata |>
+  mutate(data_set = str_c(data_set, year))
 
 # Prep data sets
-data_sets <- tibble(data_set = list.files(pre_clean_path)) |>
+data_sets <- tibble(data_set = list.files(data)) |>
   mutate(
     data_set = str_remove(data_set, ".RData"),
-    path = str_c(pre_clean_path, "/", data_set, ".RData")
+    path = str_c("data", "/", data_set, ".RData")
   ) |>
+  filter(str_detect(data_set, year) & !str_detect(data_set, "documentation")) |>
   left_join(enigh_metadata, by = "data_set") |>
   select(data_set, path, description, var_labs, value_labs)
 
@@ -56,7 +54,7 @@ data_sets <- tibble(data_set = list.files(pre_clean_path)) |>
 
 rows_n_cols <- function(data_set) {
 
-  load(str_c(pre_clean_path,"/" , data_set, ".RData"))
+  load(str_c(data,"/" , data_set, ".RData"))
 
   data_i <- get(data_set)
 
