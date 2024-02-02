@@ -1,6 +1,6 @@
 Package: tidyenigh
 Title: Analysis-Ready ENIGH Data From INEGI
-Version: 0.1.0
+Version: 0.2.0
 LazyLoad: true
 LazyDataCompression: xz
 Authors@R: 
