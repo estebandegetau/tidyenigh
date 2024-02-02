@@ -4,6 +4,7 @@
 #'
 #' @description
 #' Set variable and factor labels for all the ENIGH data sets.
+#' Runs data checks and saves data to data/ for shipping.
 #' Run through 00_run.R.
 #'
 #' @author Esteban Degetau
