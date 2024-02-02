@@ -2,11 +2,11 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{hogares_2016}
-\alias{hogares_2016}
-\alias{hogares_2018}
-\alias{hogares_2020}
-\alias{hogares_2022}
+\name{hogares2016}
+\alias{hogares2016}
+\alias{hogares2018}
+\alias{hogares2020}
+\alias{hogares2022}
 \title{Características de los hogares que habitan los integrantes del hogar}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 70311 rows and 137 columns.
@@ -18,13 +18,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 90102 rows and 141 columns.
 }
 \usage{
-hogares_2016
+hogares2016
 
-hogares_2018
+hogares2018
 
-hogares_2020
+hogares2020
 
-hogares_2022
+hogares2022
 }
 \description{
 Se integra con información sobre el acceso a la alimentación de los
@@ -55,7 +55,7 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{concentradohogar_2022}, \link{poblacion_2022}, \link{gastotarjetas_2022},
-\link{gastoshogar_2022}, \link{erogaciones_2022}
+\link{concentradohogar2022}, \link{poblacion2022}, \link{gastotarjetas2022},
+\link{gastoshogar2022}, \link{erogaciones2022}
 }
 \keyword{datasets}

@@ -2,13 +2,13 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{noagro_2016}
-\alias{noagro_2016}
-\alias{noagro_2018}
-\alias{noagro_2020}
-\alias{noagro_2022}
-\title{#' @rdname ingresos_jcf_2022
-"ingresos_jcf_2016"}
+\name{noagro2016}
+\alias{noagro2016}
+\alias{noagro2018}
+\alias{noagro2020}
+\alias{noagro2022}
+\title{#' @rdname ingresos_jcf2022
+"ingresos_jcf2016"}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 17969 rows and 105 columns.
 
@@ -19,13 +19,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 23847 rows and 115 columns.
 }
 \usage{
-noagro_2016
+noagro2016
 
-noagro_2018
+noagro2018
 
-noagro_2020
+noagro2020
 
-noagro_2022
+noagro2022
 }
 \description{
 muestra a los trabajadores independientes mayores de 12 años, que tienen
@@ -45,6 +45,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogareserences
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{trabajos_2022}, \link{noagroimportes_2022}
+\link{trabajos2022}, \link{noagroimportes2022}
 }
 \keyword{datasets}

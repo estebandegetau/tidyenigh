@@ -13,8 +13,8 @@
 #' @rdname concentradohogar2022
 "concentradohogar2020"
 
-#' @rdname enigh_documentation2022
-"enigh_documentation2020"
+#' @rdname enigh_documentation_2022
+"enigh_documentation_2020"
 
 #' @rdname erogaciones2022
 "erogaciones2020"

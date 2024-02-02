@@ -2,11 +2,11 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{viviendas_2016}
-\alias{viviendas_2016}
-\alias{viviendas_2018}
-\alias{viviendas_2020}
-\alias{viviendas_2022}
+\name{viviendas2016}
+\alias{viviendas2016}
+\alias{viviendas2018}
+\alias{viviendas2020}
+\alias{viviendas2022}
 \title{Características de las viviendas que habitan los integrantes del hogar}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 69169 rows and 64 columns.
@@ -18,13 +18,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 88823 rows and 64 columns.
 }
 \usage{
-viviendas_2016
+viviendas2016
 
-viviendas_2018
+viviendas2018
 
-viviendas_2020
+viviendas2020
 
-viviendas_2022
+viviendas2022
 }
 \description{
 Contiene las características de las viviendas que se captaron en la sección I del
@@ -52,6 +52,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{hogares_2022}
+\link{hogares2022}
 }
 \keyword{datasets}

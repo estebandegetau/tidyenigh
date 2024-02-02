@@ -16,5 +16,6 @@ Depends:
     R (>= 4.2.0)
 LazyData: true
 Suggests: 
-    labelled
+    labelled,
+    tidyinegi
 License: CC0

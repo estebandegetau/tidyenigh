@@ -2,11 +2,11 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{trabajos_2016}
-\alias{trabajos_2016}
-\alias{trabajos_2018}
-\alias{trabajos_2020}
-\alias{trabajos_2022}
+\name{trabajos2016}
+\alias{trabajos2016}
+\alias{trabajos2018}
+\alias{trabajos2020}
+\alias{trabajos2022}
 \title{Condición de actividad de los integrantes del hogar de 12 o más años}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 132095 rows and 55 columns.
@@ -18,13 +18,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 165006 rows and 60 columns.
 }
 \usage{
-trabajos_2016
+trabajos2016
 
-trabajos_2018
+trabajos2018
 
-trabajos_2020
+trabajos2020
 
-trabajos_2022
+trabajos2022
 }
 \description{
 Muestra la condición de actividad de los integrantes del hogar de 12 o más
@@ -44,6 +44,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{poblacion_2022}, \link{agro_2022}, \link{noagro_2022}
+\link{poblacion2022}, \link{agro2022}, \link{noagro2022}
 }
 \keyword{datasets}

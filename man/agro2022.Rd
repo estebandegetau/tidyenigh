@@ -2,11 +2,11 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{agro_2016}
-\alias{agro_2016}
-\alias{agro_2018}
-\alias{agro_2020}
-\alias{agro_2022}
+\name{agro2016}
+\alias{agro2016}
+\alias{agro2018}
+\alias{agro2020}
+\alias{agro2022}
 \title{Negocios agropecuarios de los hogares}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 13806 rows and 56 columns.
@@ -18,13 +18,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 17470 rows and 66 columns.
 }
 \usage{
-agro_2016
+agro2016
 
-agro_2018
+agro2018
 
-agro_2020
+agro2020
 
-agro_2022
+agro2022
 }
 \description{
 Muestra la información de los trabajadores independientes, mayores de 12 años
@@ -47,6 +47,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{trabajos_2022}, \link{agroproductos_2022}, \link{agrogasto_2022}
+\link{trabajos2022}, \link{agroproductos2022}, \link{agrogasto2022}
 }
 \keyword{datasets}

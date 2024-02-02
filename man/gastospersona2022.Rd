@@ -2,11 +2,11 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{gastospersona_2016}
-\alias{gastospersona_2016}
-\alias{gastospersona_2018}
-\alias{gastospersona_2020}
-\alias{gastospersona_2022}
+\name{gastospersona2016}
+\alias{gastospersona2016}
+\alias{gastospersona2018}
+\alias{gastospersona2020}
+\alias{gastospersona2022}
 \title{Gastos realizados en el hogar a nivel integrante}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 377013 rows and 20 columns.
@@ -18,13 +18,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 402557 rows and 24 columns.
 }
 \usage{
-gastospersona_2016
+gastospersona2016
 
-gastospersona_2018
+gastospersona2018
 
-gastospersona_2020
+gastospersona2020
 
-gastospersona_2022
+gastospersona2022
 }
 \description{
 Permite identificar los gastos realizados por cada integrante del hogar en
@@ -45,6 +45,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{poblacion_2022}
+\link{poblacion2022}
 }
 \keyword{datasets}

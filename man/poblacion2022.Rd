@@ -2,13 +2,13 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{poblacion_2016}
-\alias{poblacion_2016}
-\alias{poblacion_2018}
-\alias{poblacion_2020}
-\alias{poblacion_2022}
-\title{#' @rdname noagroimportes_2022
-"noagroimportes_2016"}
+\name{poblacion2016}
+\alias{poblacion2016}
+\alias{poblacion2018}
+\alias{poblacion2020}
+\alias{poblacion2022}
+\title{#' @rdname noagroimportes2022
+"noagroimportes2016"}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 257805 rows and 178 columns.
 
@@ -19,13 +19,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 309684 rows and 188 columns.
 }
 \usage{
-poblacion_2016
+poblacion2016
 
-poblacion_2018
+poblacion2018
 
-poblacion_2020
+poblacion2020
 
-poblacion_2022
+poblacion2022
 }
 \description{
 Identifica las características sociodemográficas de los integrantes del
@@ -48,7 +48,7 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{hogares_2022}, \link{ingresos_2022}, \link{trabajos_2022},
-\link{gastospersona_2022}
+\link{hogares2022}, \link{ingresos2022}, \link{trabajos2022},
+\link{gastospersona2022}
 }
 \keyword{datasets}

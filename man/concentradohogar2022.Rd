@@ -2,13 +2,13 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{concentradohogar_2016}
-\alias{concentradohogar_2016}
-\alias{concentradohogar_2018}
-\alias{concentradohogar_2020}
-\alias{concentradohogar_2022}
-\title{#' @rdname agroconsumo_2022
-"agroconsumo_2016"}
+\name{concentradohogar2016}
+\alias{concentradohogar2016}
+\alias{concentradohogar2018}
+\alias{concentradohogar2020}
+\alias{concentradohogar2022}
+\title{#' @rdname agroconsumo2022
+"agroconsumo2016"}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 70311 rows and 127 columns.
 
@@ -19,24 +19,24 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 90102 rows and 126 columns.
 }
 \usage{
-concentradohogar_2016
+concentradohogar2016
 
-concentradohogar_2018
+concentradohogar2018
 
-concentradohogar_2020
+concentradohogar2020
 
-concentradohogar_2022
+concentradohogar2022
 }
 \description{
-#' @rdname agrogasto_2022
-"agrogasto_2016"
-#' @rdname agroproductos_2022
-"agroproductos_2016"
+#' @rdname agrogasto2022
+"agrogasto2016"
+#' @rdname agroproductos2022
+"agroproductos2016"
 
-#' @rdname agrogasto_2022
-"agrogasto_2018"
-#' @rdname agroproductos_2022
-"agroproductos_2018"
+#' @rdname agrogasto2022
+"agrogasto2018"
+#' @rdname agroproductos2022
+"agroproductos2018"
 
 variables construidas a partir de las otras tablas de la base de datos.
 Registra el resumen concentrado por hogar, de ingresos y gastos en toda
@@ -56,6 +56,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{hogares_2022}
+\link{hogares2022}
 }
 \keyword{datasets}

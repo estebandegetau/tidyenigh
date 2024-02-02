@@ -2,11 +2,11 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{gastoshogar_2016}
-\alias{gastoshogar_2016}
-\alias{gastoshogar_2018}
-\alias{gastoshogar_2020}
-\alias{gastoshogar_2022}
+\name{gastoshogar2016}
+\alias{gastoshogar2016}
+\alias{gastoshogar2018}
+\alias{gastoshogar2020}
+\alias{gastoshogar2022}
 \title{Gastos en los hogares}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1048575 rows and 27 columns.
@@ -18,13 +18,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 5075174 rows and 31 columns.
 }
 \usage{
-gastoshogar_2016
+gastoshogar2016
 
-gastoshogar_2018
+gastoshogar2018
 
-gastoshogar_2020
+gastoshogar2020
 
-gastoshogar_2022
+gastoshogar2022
 }
 \description{
 Permite identificar los gastos monetarios y no monetarios del hogar.
@@ -46,6 +46,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{hogares_2022}
+\link{hogares2022}
 }
 \keyword{datasets}

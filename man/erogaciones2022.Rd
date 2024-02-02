@@ -2,11 +2,11 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{erogaciones_2016}
-\alias{erogaciones_2016}
-\alias{erogaciones_2018}
-\alias{erogaciones_2020}
-\alias{erogaciones_2022}
+\name{erogaciones2016}
+\alias{erogaciones2016}
+\alias{erogaciones2018}
+\alias{erogaciones2020}
+\alias{erogaciones2022}
 \title{Erogaciones de capital por hogar}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 44334 rows and 16 columns.
@@ -18,13 +18,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 64779 rows and 16 columns.
 }
 \usage{
-erogaciones_2016
+erogaciones2016
 
-erogaciones_2018
+erogaciones2018
 
-erogaciones_2020
+erogaciones2020
 
-erogaciones_2022
+erogaciones2022
 }
 \description{
 Permite identificar las erogaciones financieras y de capital realizadas por
@@ -43,6 +43,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{hogares_2022}
+\link{hogares2022}
 }
 \keyword{datasets}

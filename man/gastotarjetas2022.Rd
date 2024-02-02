@@ -2,11 +2,11 @@
 % Please edit documentation in R/doc_2016.R, R/doc_2018.R, R/doc_2020.R,
 %   R/doc_2022.R
 \docType{data}
-\name{gastotarjetas_2016}
-\alias{gastotarjetas_2016}
-\alias{gastotarjetas_2018}
-\alias{gastotarjetas_2020}
-\alias{gastotarjetas_2022}
+\name{gastotarjetas2016}
+\alias{gastotarjetas2016}
+\alias{gastotarjetas2018}
+\alias{gastotarjetas2020}
+\alias{gastotarjetas2022}
 \title{Gastos realizados por el hogar y que fueron cubiertos mediante alguna
 tarjeta de crédito bancaria y/o comercial}
 \format{
@@ -19,13 +19,13 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 13232 rows and 6 columns.
 }
 \usage{
-gastotarjetas_2016
+gastotarjetas2016
 
-gastotarjetas_2018
+gastotarjetas2018
 
-gastotarjetas_2020
+gastotarjetas2020
 
-gastotarjetas_2022
+gastotarjetas2022
 }
 \description{
 Permite identificar en qué medida los hogares se auxilian del financiamiento
@@ -47,6 +47,6 @@ INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 2022. ENIGH. Nueva Serie. \href{https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626}{PDF}
 }
 \seealso{
-\link{hogares_2022}
+\link{hogares2022}
 }
 \keyword{datasets}
