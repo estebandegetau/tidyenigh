@@ -1,0 +1,79 @@
+---
+title: "tidyenigh"
+format: gfm
+
+---
+
+
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/estebandegetau/tidyenigh/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/estebandegetau/tidyenigh/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+`tidyenigh` is an R package that ships analysis-ready data from the Encuesta Nacional de Ingresos y Gastos de los Hogares [ENIGH](https://www.inegi.org.mx/programas/enigh/nc/2022/) survey in a consistent, tidy and reproducible fashion.
+
+The package includes data from the 2016, 2018, 2020 and 2022 surveys. By *analisys-ready* we mean that by lazy-loading the package, the user has instant access to every data set in the survey. Our analysis-ready standard includes:
+
+- Variable labels provided by the official documentation.
+- Factor levels and labels for categorical variables.
+- Proper data types for each variable.
+- Original documentation for each data set with R's help system.
+
+
+The package also includes the original metadata for each data set, as it is required by INEGI's licence.
+
+
+
+## Usage
+
+Data is Lazy Loaded, so you can use it as soon as you load the package. Using `gt::gt()` is a great way to work with labelled data, as it will display the variable labels included in the package.
+```{r, include=TRUE, results='markup'}
+library(tidyenigh)
+
+poblacion2022 |>
+  head(5) |>
+  gt::gt()
+
+  
+```
+
+Data includes variable and value labels
+```{r, include=TRUE}
+library(labelled)
+
+gastoshogar2016 |> 
+  generate_dictionary(details = F) |> 
+  head(10) |>
+  gt::gt()
+
+```
+
+Official [INEGI](https://www.inegi.org.mx/) documentation is available within the package, using R's help system.
+```{r, eval=FALSE}
+?hogares2022
+```
+
+Check available data sets
+```{r, include=TRUE}
+enigh_documentation_2022 |>
+  dplyr::select(data_set, description, cols, rows) |>
+  gt::gt()
+```
+
+## Installation
+
+You can install the latest version of `tidyenigh` from [GitHub](https://github.com/) with:
+
+``` {r, eval=FALSE}
+# install.packages("devtools")
+
+devtools::install_github("estebandegetau/tidyenigh")
+```
+
+## Reproducibility
+
+A consistent and reproducible workflow is key to the development of `tidyenigh`. The original data was cleaned from its `.zip` original format using R code, which is available to the savvy user in the `data-raw` folder.
