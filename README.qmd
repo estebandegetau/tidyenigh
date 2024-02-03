@@ -1,6 +1,9 @@
 ---
-output: github_document
+title: "tidyenigh"
+format: gfm
 ---
+
+
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -14,7 +17,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tidyenigh
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/estebandegetau/tidyenigh/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/estebandegetau/tidyenigh/actions/workflows/R-CMD-check.yaml)
@@ -37,7 +39,7 @@ The package also includes the original metadata for each data set, as it is requ
 ## Usage
 
 Data is Lazy Loaded, so you can use it as soon as you load the package. Using `gt::gt()` is a great way to work with labelled data, as it will display the variable labels included in the package.
-```{r, include=TRUE}
+```{r, include=TRUE, results='markup'}
 library(tidyenigh)
 
 poblacion2022 |>
