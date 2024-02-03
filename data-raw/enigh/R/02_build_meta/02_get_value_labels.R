@@ -3,7 +3,7 @@
 #' @name 02_get_value_labels.R
 #'
 #' @description Get value labels for ENIGH data using
-#'    `tidyinegi::get_enigh_val_labels()`. Run through 00_run.R.
+#' [tidyinegi::get_enigh_val_labels()]. Run through 00_run.R.
 #'
 #' @author Esteban Degetau
 #'

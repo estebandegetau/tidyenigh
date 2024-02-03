@@ -40,9 +40,9 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'             2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [hogares_2022]
+#' @seealso [hogares2022]
 #'
-"viviendas_2022"
+"viviendas2022"
 
 #### hogares ###################################################################
 
@@ -74,10 +74,10 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'             2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [concentradohogar_2022], [poblacion_2022], [gastotarjetas_2022],
-#'          [gastoshogar_2022], [erogaciones_2022]
+#' @seealso [concentradohogar2022], [poblacion2022], [gastotarjetas2022],
+#'          [gastoshogar2022], [erogaciones2022]
 #'
-"hogares_2022"
+"hogares2022"
 
 #### poblacion #################################################################
 
@@ -102,10 +102,10 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'             2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [hogares_2022], [ingresos_2022], [trabajos_2022],
-#'          [gastospersona_2022]
+#' @seealso [hogares2022], [ingresos2022], [trabajos2022],
+#'          [gastospersona2022]
 #'
-"poblacion_2022"
+"poblacion2022"
 
 #### gastoshogar ###############################################################
 
@@ -129,9 +129,9 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'             2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [hogares_2022]
+#' @seealso [hogares2022]
 #'
-"gastoshogar_2022"
+"gastoshogar2022"
 
 #### erogaciones ###############################################################
 
@@ -151,8 +151,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'             2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [hogares_2022]
-"erogaciones_2022"
+#' @seealso [hogares2022]
+"erogaciones2022"
 
 #### gastotarjetas #############################################################
 
@@ -176,8 +176,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'            2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [hogares_2022]
-"gastotarjetas_2022"
+#' @seealso [hogares2022]
+"gastotarjetas2022"
 
 #### ingresos ##################################################################
 
@@ -200,8 +200,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'            2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [hogares_2022], [ingresos_jcf_2022]
-"ingresos_2022"
+#' @seealso [hogares2022], [ingresos_jcf2022]
+"ingresos2022"
 
 #### gastospersona #############################################################
 
@@ -223,8 +223,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'            2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [poblacion_2022]
-"gastospersona_2022"
+#' @seealso [poblacion2022]
+"gastospersona2022"
 
 #### trabajos ##################################################################
 
@@ -245,8 +245,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'           2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [poblacion_2022], [agro_2022], [noagro_2022]
-"trabajos_2022"
+#' @seealso [poblacion2022], [agro2022], [noagro2022]
+"trabajos2022"
 
 #### agro ######################################################################
 
@@ -270,8 +270,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'           2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [trabajos_2022], [agroproductos_2022], [agrogasto_2022]
-"agro_2022"
+#' @seealso [trabajos2022], [agroproductos2022], [agrogasto2022]
+"agro2022"
 
 #### noagro ####################################################################
 
@@ -292,8 +292,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogareserences
 #'          2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [trabajos_2022], [noagroimportes_2022]
-"noagro_2022"
+#' @seealso [trabajos2022], [noagroimportes2022]
+"noagro2022"
 
 #### agroproductos #############################################################
 
@@ -314,8 +314,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'           2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [agro_2022], [agroconsumo_2022]
-"agroproductos_2022"
+#' @seealso [agro2022], [agroconsumo2022]
+"agroproductos2022"
 
 #### agroconsumo ###############################################################
 
@@ -337,8 +337,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'          2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [agroproductos_2022]
-"agroconsumo_2022"
+#' @seealso [agroproductos2022]
+"agroconsumo2022"
 
 #### agrogasto #################################################################
 
@@ -357,8 +357,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'         2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [agro_2022]
-"agrogasto_2022"
+#' @seealso [agro2022]
+"agrogasto2022"
 
 #### noagroimportes ############################################################
 
@@ -377,8 +377,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'        2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [noagro_2022]
-"noagroimportes_2022"
+#' @seealso [noagro2022]
+"noagroimportes2022"
 
 #### concentradohogar ##########################################################
 
@@ -400,8 +400,8 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'        2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [hogares_2022]
-"concentradohogar_2022"
+#' @seealso [hogares2022]
+"concentradohogar2022"
 
 #### ingresos_jcf ##############################################################
 
@@ -417,5 +417,5 @@
 #' @references INEGI, 2023. Encuesta Nacional de Ingresos y Gastos de los Hogares
 #'       2022. ENIGH. Nueva Serie. [PDF](https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463910626)
 #'
-#' @seealso [ingresos_2022]
-"ingresos_jcf_2022"
+#' @seealso [ingresos2022]
+"ingresos_jcf2022"

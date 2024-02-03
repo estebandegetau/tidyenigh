@@ -1,13 +1,28 @@
 ---
 title: "tidyenigh"
 format: gfm
+<<<<<<< HEAD
 
+=======
+>>>>>>> b5e789f82ba404ecd795610a8d21c3052208691e
 ---
 
 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<<<<<<< HEAD
+=======
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%",
+  eval = T
+)
+```
+>>>>>>> b5e789f82ba404ecd795610a8d21c3052208691e
 
 
 <!-- badges: start -->
