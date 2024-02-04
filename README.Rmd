@@ -36,17 +36,14 @@ The package also includes the original metadata for each data set, as it is requ
 ## Usage
 
 Data is Lazy Loaded, so you can use it as soon as you load the package. Using `gt::gt()` is a great way to work with labelled data, as it will display the variable labels included in the package.
-```{r, include=TRUE, results='asis'}
 
-
+```{r}
 library(tidyenigh)
-library(gt)
 
 poblacion2022 |>
   head(5) |>
   gt::gt() 
 
-  
 ```
 
 Data includes variable and value labels
