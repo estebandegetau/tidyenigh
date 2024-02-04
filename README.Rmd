@@ -6,7 +6,7 @@ output: github_document
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
+ # collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%"
@@ -47,6 +47,7 @@ poblacion2022 |>
 ```
 
 Data includes variable and value labels
+
 ```{r, include=TRUE}
 library(labelled)
 
@@ -58,11 +59,13 @@ gastoshogar2016 |>
 ```
 
 Official [INEGI](https://www.inegi.org.mx/) documentation is available within the package, using R's help system.
+
 ```{r, eval=FALSE}
 ?hogares2022
 ```
 
 Check available data sets
+
 ```{r, include=TRUE}
 enigh_documentation_2022 |>
   dplyr::select(data_set, description, cols, rows) |>
