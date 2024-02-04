@@ -1,29 +1,19 @@
 ---
-title: "tidyenigh"
-format: gfm
-<<<<<<< HEAD
-
-=======
->>>>>>> b5e789f82ba404ecd795610a8d21c3052208691e
+output: github_document
 ---
-
-
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<<<<<<< HEAD
-=======
-```{r, include=FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%",
-  eval = T
+  out.width = "100%"
 )
 ```
->>>>>>> b5e789f82ba404ecd795610a8d21c3052208691e
 
+# tidyenigh
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/estebandegetau/tidyenigh/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/estebandegetau/tidyenigh/actions/workflows/R-CMD-check.yaml)
@@ -47,6 +37,10 @@ The package also includes the original metadata for each data set, as it is requ
 
 Data is Lazy Loaded, so you can use it as soon as you load the package. Using `gt::gt()` is a great way to work with labelled data, as it will display the variable labels included in the package.
 ```{r, include=TRUE, results='markup'}
+#| label: tbl-load
+#| tbl-cap: "Load a data set in the package"
+
+
 library(tidyenigh)
 
 poblacion2022 |>
