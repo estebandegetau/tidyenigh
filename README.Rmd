@@ -39,19 +39,16 @@ The package also includes the original metadata for each data set, as it is requ
 
 Data is Lazy Loaded, so you can use it as soon as you load the package. Using `gt::gt()` is a great way to work with labelled data, as it will display the variable labels included in the package.
 
-```{r, include=FALSE}
+```{r, eval=FALSE}
 library(tidyenigh)
 
 poblacion2022 |>
   head(5) |>
-  gt::gt()
-
-
+  gt::gt() 
 
 ```
 
-
-```{r}
+```{r, echo=FALSE}
 library(tidyenigh)
 
 poblacion2022 |>
@@ -66,15 +63,47 @@ poblacion2022 |>
 
 Data includes variable and value labels
 
-```{r, include=TRUE}
-library(labelled)
+```{r, eval=FALSE}
 
 gastoshogar2016 |> 
-  generate_dictionary(details = F) |> 
-  head(10) |>
-  gt::gt()
+  gt::gt() |>
+  gt::tab_info() 
 
 ```
+
+```{r, echo=FALSE}
+
+gastoshogar2016 |> 
+  gt::gt() |>
+  gt::tab_info() |> 
+  gt::as_raw_html()
+
+```
+
+### Value labels and correct data types
+
+Categorical variables were transformed into factors with the correct levels and labels.
+
+```{r, eval=FALSE}
+poblacion2022 |>
+  as_survey() |>
+  gtsummary::tbl_svysummary(include = c(edad, nivelaprob),
+                            by = sexo) 
+```
+
+
+```{r, echo=FALSE}
+
+poblacion2022 |>
+  as_survey() |>
+  gtsummary::tbl_svysummary(include = c(edad, nivelaprob),
+                            by = sexo) |>
+  gtsummary::as_gt() |>
+  gt::as_raw_html()
+
+```
+
+
 
 ### Documentation
 
@@ -86,10 +115,17 @@ Official [INEGI](https://www.inegi.org.mx/) documentation is available within th
 
 Check available data sets
 
-```{r, include=TRUE}
+```{r, eval=FALSE}
 enigh_documentation_2022 |>
   dplyr::select(data_set, description, cols, rows) |>
-  gt::gt()
+  gt::gt() 
+```
+
+```{r, echo=FALSE}
+enigh_documentation_2022 |>
+  dplyr::select(data_set, description, cols, rows) |>
+  gt::gt() |>
+  gt::as_raw_html()
 ```
 
 ## Installation
