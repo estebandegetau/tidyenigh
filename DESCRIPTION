@@ -16,5 +16,10 @@ Depends:
     R (>= 4.2.0)
 LazyData: true
 Suggests: 
-    labelled
+    gtsummary,
+    labelled,
+    testthat (>= 3.0.0)
 License: CC0
+Config/testthat/edition: 3
+Imports: 
+    survey
