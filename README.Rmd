@@ -43,21 +43,22 @@ The package also includes the original metadata for each data set, as it is requ
 
 Data is Lazy Loaded, so you can use it as soon as you load the package. Using `gt::gt()` is a great way to work with labelled data, as it will display the variable labels included in the package.
 
-```{r, eval=FALSE}
+```{r, include=FALSE}
 library(tidyenigh)
 
-poblacion2022 |>
-  head(5) |>
+pop_gt <- poblacion2022 |>
+  dplyr::select(sexo, edad, nivelaprob, entidad) |>
+  head() |>
   gt::gt() 
+
+pop_gt
 
 ```
 
 ```{r, echo=FALSE}
 library(tidyenigh)
 
-poblacion2022 |>
-  head(5) |>
-  gt::gt() |>
+pop_gt |>
   gt::as_raw_html()
 
 ```
