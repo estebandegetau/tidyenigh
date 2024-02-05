@@ -1,7 +1,5 @@
 ---
 output: github_document
-execute:
-  output: asis
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -41,12 +39,25 @@ The package also includes the original metadata for each data set, as it is requ
 
 Data is Lazy Loaded, so you can use it as soon as you load the package. Using `gt::gt()` is a great way to work with labelled data, as it will display the variable labels included in the package.
 
-```{r}
+```{r, include=FALSE}
 library(tidyenigh)
 
 poblacion2022 |>
   head(5) |>
   gt::gt()
+
+
+
+```
+
+
+```{r}
+library(tidyenigh)
+
+poblacion2022 |>
+  head(5) |>
+  gt::gt() |>
+  gt::as_raw_html()
 
 ```
 
