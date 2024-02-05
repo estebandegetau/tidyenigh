@@ -43,7 +43,7 @@ The package also includes the original metadata for each data set, as it is requ
 
 Data is Lazy Loaded, so you can use it as soon as you load the package. Using `gt::gt()` is a great way to work with labelled data, as it will display the variable labels included in the package.
 
-```{r, include=FALSE}
+```{r, results='hide'}
 library(tidyenigh)
 
 pop_gt <- poblacion2022 |>
