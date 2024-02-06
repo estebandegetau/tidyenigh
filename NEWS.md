@@ -1,3 +1,5 @@
+# tidyenigh 0.2.1
+
 # tidyenigh 0.2.0
 
 * Fixed some bugs in the data cleaning code, that were causing some factor variables not to be properly labeled.
