@@ -53,6 +53,9 @@ years <- c(2022, 2020, 2018, 2016)
 ._01_write_documentation <- 1
 ._02_save_metadata       <- 1
 
+# Build package
+._01_build_package       <- 1
+
 #---- Run ----------------------------------------------------------------------
 
 for(year in years) {
@@ -164,3 +167,14 @@ for(year in years) {
 
 
 }
+
+# 5. Build package -------------------------------------------------------------
+
+if (._01_build_package) {
+
+  document()
+  install()
+
+}
+
+
