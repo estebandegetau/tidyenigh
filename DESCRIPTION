@@ -17,9 +17,12 @@ Depends:
 LazyData: true
 Suggests: 
     gtsummary,
+    knitr,
     labelled,
+    rmarkdown,
     testthat (>= 3.0.0)
 License: CC0
 Config/testthat/edition: 3
 Imports: 
     survey
+VignetteBuilder: knitr

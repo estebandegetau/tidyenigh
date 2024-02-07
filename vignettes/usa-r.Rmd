@@ -1,0 +1,112 @@
+---
+title: "Usa R para navegar datos de la ENIGH con `tidyenigh`"
+author: "Esteban Degetau"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{usa-r}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+lang: es
+---
+
+```{r, include = FALSE}
+rm(list = ls())
+gc()
+
+options(rmarkdown.html_vignette.check_title = FALSE)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/usa-r-",
+  out.width = "100%"
+)
+```
+
+## La ENIGH
+
+La [Encuesta Nacional de Ingresos y Gastos de los Hogares](https://www.inegi.org.mx/programas/enigh/nc/2022/) es una fuente de información muy completa sobre la composición de los hogares que integran la república mexicana. Al final, una encuesta sorbe los hogares mexicanos es una encuesta sobre la población mexicana. La ENIGH provee información útil a investigadores para evaluar, guíar y proponer política pública.
+
+Por ejemplo, a través de la ENIGH sabemos que el Seguro Popular fue mejor atendiendo a la población rural que a la población urbana [@grogger2015], y sabemos quiénes son los NiNis [@arceo-gómez2011]. Quizá de manera más importante, la información de la ENIGH es el insumo con el que se mide la pobreza en México [@coneval2019].
+
+## Los datos
+
+Los datos recabados en la encuesta se procesan y se publican en la página del [INEGI](https://www.inegi.org.mx/) en formato `.zip` con cada periodo de levantamiento. A pesar de que el INEGI sigue metodologías de alto rigor para garantizar la calidad de los datos, llevar los datos en su forma `.zip` hasta un análisis profundo de la realidad mexicana lleva un arduo trabajo de limpieza.
+
+Un proceso de limpieza riguroso es un ejercicio necesario en cualquier procedimiento de análisis de datos. @wickham2019 presentan el siguiente diagrama de flujo en su *Introducción al Tidyverse:*
+
+![Flujo de un análisis de datos](images/usa-r-program){width="100%"}
+
+Como veremos, con `tidyenigh`, el proceso de importación y limpieza está hecho automáticamente, para que el usuario pueda enfocar su energía en analizar y comunicar sus resultados.
+
+## R y el `tidyverse`
+
+Abiertamente, soy un aficionado de R porque es un software abierto y muy poderoso que permite hacer análisis de datos que después puedan ser *reproducidos*. La reproducibilidad es una característica fundamental de cualquier análisis, puesto que es una manera de transparentar cómo llegamos a un resultado.
+
+El `tidyverse` es un conjunto de herramientas que facilitan el procesamiento de datos en R, con un lenguaje cohesivo de verbos y adjetivos que usaremos a continuación.
+
+## `tidyenigh`
+
+Supongamos que nos interesa saber cuántas personas hay en México por nivel máximo aprobado de educación. La ENIGH captura esta información en su hoja `poblacion`.
+
+### Instalación
+
+Primero, instalaremos el paquete a través de [GitHub](https://github.com/estebandegetau/tidyenigh), usando `remotes::install_github()`
+
+```{r install, eval=FALSE}
+# install.packages("remotes")
+
+remotes::install_github("estebandegetau/tidyenigh")
+```
+
+La **gran debilidad** de `tidyenigh` es su tiempo de instalación. ¡Puede llegar a tardar unos 15 minutos! Sin embargo, 10 minutos es en realidad muy poco tiempo para importar y descargar una base de datos tan grande y compeja como la de la ENIGH.
+
+Instalado el paquete, procedemos a cargarlo en nuestra sesión.
+
+```{r setup}
+library(tidyenigh)
+```
+
+### Análisis exploratorio
+
+Las hojas de datos en `tidyenigh` vienen precargadas al llamar la librería. Usando *Lazy Loading,* tenemos acceso inmediato a las hojas sin que ocupen espacio de RAM antes de llamarlas individualmente. Pero, supongamos que yo no sé en qué hoja puedo encontrar infromación del nivel educativo de las personas. Entonces, puedo usar `enigh_documentation_2022` para identificar qué conjunto de datos debo llamar.
+
+```{r}
+enigh_documentation_2022 |>
+  gt::gt()
+```
+
+Encontramos las descripciones de cada una de los conjunto de datos que cofnorman la base de datos del año 2022. Parece que `poblacion2022` puede tener la infromación que busco. *Lazy Loading* me permite traérla a memoria solo llamándola:
+
+```{r}
+poblacion2022 |> 
+  gt::gt_preview()
+```
+
+Vemos que los valores están bien formateados, pero no sé qué significa cada variable. Afortunadamente, los conjuntos de datos en `tidyenigh` ya tienen precargado la descripción de cada variable. Puedo generar un diccionario con `gt::tab_info()`.
+
+```{r}
+poblacion2022 |>
+  gt::gt() |>
+  gt::tab_info()
+```
+
+¡Finalmente! Es claro que `nivelaprob` me dirá qué nivel aprobado tiene la persona entrevistada. Puedo hacer una tabla fácilmente con `gtsummary::tbl_summary()`. Este paquete tiene varias ventajas. Por ahora, me interesa porque incluye las etiquetas de las variables, de los valores y puedo modificar el idioma de los títulos con facilidad.
+
+```{r}
+gtsummary::theme_gtsummary_language(language = "es")
+
+poblacion2022 |>
+  gtsummary::tbl_summary(include = c(nivelaprob))
+```
+
+Muy bien. Pero todavía no es lo que quiero. Quiero saber la cantidad de personas que que acreditaron cada uno de los niveles educativos en México, no en la encuesta. Una gran ventaja de la ENIGH es que es fácilemente expandible. Hay muchos paquetesque permiten trabajar con encuestas expandibles. `tidyenigh` tiene una función que facilita el manejo de las encuestas: `as_survey()`.
+
+```{r}
+poblacion2022 |>
+  as_survey() |>
+  gtsummary::tbl_svysummary(include = c(nivelaprob))
+```
+
+## Referencias
