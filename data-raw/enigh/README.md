@@ -1,4 +1,5 @@
-# ENIGH
+# ENIGH cleaning code
+
 
 This README talks about the code used to transform raw ENIGH data into
 its analysis-ready format shipped in `tidyenigh`.
@@ -26,32 +27,14 @@ You should **only** run it through `00_run.R`, manually changing the
 component does, and further documentation can be found within each
 script.
 
+Some helper functions are imported from the package
+[tidyinegi](https://github.com/estebandegetau/tidyinegi). You’ll need to
+install it on your computer before running this cleaning code. Other
+than that, the code relies only on conventional tidyverse packages.
+
 ## Errata
 
 Some errors were found in the raw data while cleaning it. They broke the
 cleaning code and thus some rather irksome fix-arounds were implemented
-to account for each error. Here’s a list of all the nasty fix-arounds.
-
-### 2018
-
-- In `data-raw/enigh/R/01_open_data/02_rename_dirs.R` a directory is
-  manually renamed to match the name of the data set as conventionally
-  named: `viviendas` instead of `vivienda`.
-
-- In `data-raw/enigh/R/02_build_meta/03_build_metadata.R` the value
-  labels for the variable `norecib_11` in the data set `poblacion` is
-  set manually, according to
-  `data-raw/enigh/data/02_open/2018/poblacion/diccionario_de_datos/*.csv`.
-  The .csv containing value labels for variable `norecib` in
-  `poblacion/diccionario_de_datos/catalogos` do not match the values in
-  the data set.
-
-### 2020
-
-- In `data-raw/enigh/R/02_build_meta/03_build_metadata.R` the value
-  labels for the variable `tipoact` in the data set `noagro` is set
-  manually, according to
-  `data-raw/enigh/data/02_open/2020/noagro/diccionario_de_datos/*.csv`.
-  The .csv containing value labels for variable `tipoact` in
-  `noagro/diccionario_de_datos/catalogos` do not match the values in the
-  data set.
+to account for each error. A full description of the errors encountered
+is included in `data-raw/enigh/R/02_build_meta/03_build_metadata`.

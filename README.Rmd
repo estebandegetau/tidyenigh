@@ -92,16 +92,17 @@ Categorical variables were transformed into factors with the correct levels and 
 ```{r, eval=FALSE}
 poblacion2022 |>
   as_survey() |>
-  gtsummary::tbl_svysummary(include = c(edad, nivelaprob),
+  gtsummary::tbl_svysummary(include = c(edad, diabetes, nivelaprob),
                             by = sexo) 
 ```
 
 
 ```{r, echo=FALSE}
 
+
 poblacion2022 |>
   as_survey() |>
-  gtsummary::tbl_svysummary(include = c(edad, nivelaprob),
+  gtsummary::tbl_svysummary(include = c(edad, diabetes, nivelaprob),
                             by = sexo) |>
   gtsummary::as_gt() |>
   gt::as_raw_html()

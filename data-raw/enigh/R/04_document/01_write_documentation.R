@@ -75,7 +75,15 @@ data_sets <- data_sets |>
     mutate(
       metadata = map(data_set, rows_n_cols)
     ) |>
-  unnest(metadata)
+  unnest(metadata) |>
+  select(data_set, description, cols, rows) |>
+  labelled::set_variable_labels(
+    data_set = "Conjunto de datos",
+    description = "Descripción",
+    cols = "Columnas",
+    rows = "Filas"
+  )
+
 
 
 #---- Save ---------------------------------------------------------------------
