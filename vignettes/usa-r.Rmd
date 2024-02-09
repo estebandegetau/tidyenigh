@@ -8,6 +8,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
 lang: es
+nocite: |
+  @sjoberg2023
 ---
 
 ```{r, include = FALSE}
@@ -26,13 +28,15 @@ knitr::opts_chunk$set(
 
 ## La ENIGH
 
-La [Encuesta Nacional de Ingresos y Gastos de los Hogares](https://www.inegi.org.mx/programas/enigh/nc/2022/) es una fuente de información muy completa sobre la composición de los hogares que integran la república mexicana. Al final, una encuesta sorbe los hogares mexicanos es una encuesta sobre la población mexicana. La ENIGH provee información útil a investigadores para evaluar, guíar y proponer política pública.
+La [Encuesta Nacional de Ingresos y Gastos de los Hogares](https://www.inegi.org.mx/programas/enigh/nc/2022/) es una fuente de información muy completa sobre la composición de los hogares que integran la república mexicana. Al final, una encuesta sobre los hogares mexicanos es una encuesta sobre la población mexicana. La información de recopilada en la ENIGH ha sido útil a investigadores para evaluar, guíar y proponer política pública.
 
-Por ejemplo, a través de la ENIGH sabemos que el Seguro Popular fue mejor atendiendo a la población rural que a la población urbana [@grogger2015], y sabemos quiénes son los NiNis [@arceo-gómez2011]. Quizá de manera más importante, la información de la ENIGH es el insumo con el que se mide la pobreza en México [@coneval2019].
+Por ejemplo, a través de la ENIGH sabemos que el Seguro Popular fue mejor atendiendo a la población rural que a la población urbana [@grogger2015], y sabemos qué características comparten entre sí los NiNis[^1] [@arceo-gómez2011]. Quizá de manera más importante, la información de la ENIGH es el insumo con el que se mide la pobreza en México [@coneval2019].
+
+[^1]: NiNi: Persona que *ni* estudia *ni* trabaja. Coloquial, muchas veces despectivo.
 
 ## Los datos
 
-Los datos recabados en la encuesta se procesan y se publican en la página del [INEGI](https://www.inegi.org.mx/) en formato `.zip` con cada periodo de levantamiento. A pesar de que el INEGI sigue metodologías de alto rigor para garantizar la calidad de los datos, llevar los datos en su forma `.zip` hasta un análisis profundo de la realidad mexicana lleva un arduo trabajo de limpieza.
+Los datos recabados en la encuesta se procesan y se publican en la página del [INEGI](https://www.inegi.org.mx/) en formato `.zip` con cada periodo de levantamiento. A pesar de que el INEGI sigue metodologías de alto rigor para garantizar la calidad de los datos, llevarlos de su formato `.zip` por todo el procesamiento para crear un análisis profundo de la realidad mexicana lleva un arduo trabajo de limpieza, transformación, comunicación y postproducción. Responder una simple pregunta con datos se puede convertir en un gran proyecto.
 
 Un proceso de limpieza riguroso es un ejercicio necesario en cualquier procedimiento de análisis de datos. @wickham2019 presentan el siguiente diagrama de flujo en su *Introducción al Tidyverse:*
 
@@ -42,17 +46,17 @@ Como veremos, con `tidyenigh`, el proceso de importación y limpieza está hecho
 
 ## R y el `tidyverse`
 
-Abiertamente, soy un aficionado de R porque es un software abierto y muy poderoso que permite hacer análisis de datos que después puedan ser *reproducidos*. La reproducibilidad es una característica fundamental de cualquier análisis, puesto que es una manera de transparentar cómo llegamos a un resultado.
+Abiertamente, soy un aficionado de R porque es un software abierto y poderoso que permite hacer análisis de datos que después puedan ser *reproducidos*. La reproducibilidad es una característica fundamental de cualquier análisis, puesto que transparenta la metodología y facilita análisis subsecuentes. En general, me gusta pensar que el conocimiento debe ser abierto, libre y gratuito, y R me parece una herramienta fenomenal para esto.
 
-El `tidyverse` es un conjunto de herramientas que facilitan el procesamiento de datos en R, con un lenguaje cohesivo de verbos y adjetivos que usaremos a continuación.
+En partidular, el `tidyverse` es un conjunto de herramientas que facilitan el procesamiento de datos en R, con un lenguaje cohesivo de verbos y adjetivos que usaremos a continuación.
 
 ## `tidyenigh`
 
-Supongamos que nos interesa saber cuántas personas hay en México por nivel máximo aprobado de educación. La ENIGH captura esta información en su hoja `poblacion`.
+Cualquier pregutna que se pueda responder con datos de la ENIGH se puede responder con `tidyenigh`. Partiré de un ejemplo sencillo. Supongamos que nos interesa conocer cómo se distribuye la educación en México. En particular, quiero saber cuántas personas han logrado cada nivel de estudios. Es decir, cuántas personas hay con secundaria, preparatoria, licenciatura, etc. Sé que la ENIGH captura esta información, pero no estoy seguro cómo acceder a ella.
 
 ### Instalación
 
-Primero, instalaremos el paquete a través de [GitHub](https://github.com/estebandegetau/tidyenigh), usando `remotes::install_github()`
+Primero, instalaremos el paquete a través de [GitHub](https://github.com/estebandegetau/tidyenigh), usando `remotes::install_github()` .
 
 ```{r install, eval=FALSE}
 # install.packages("remotes")
@@ -60,7 +64,7 @@ Primero, instalaremos el paquete a través de [GitHub](https://github.com/esteba
 remotes::install_github("estebandegetau/tidyenigh")
 ```
 
-La **gran debilidad** de `tidyenigh` es su tiempo de instalación. ¡Puede llegar a tardar unos 15 minutos! Sin embargo, 10 minutos es en realidad muy poco tiempo para importar y descargar una base de datos tan grande y compeja como la de la ENIGH.
+La **gran debilidad** de `tidyenigh` es su tiempo de instalación. ¡Puede llegar a tardar unos 15 minutos! Sin embargo, en perspectiva, 15 minutos es muy poco tiempo para importar y limpiar (y descifrar) una base de datos tan grande y compeja como la de la ENIGH.
 
 Instalado el paquete, procedemos a cargarlo en nuestra sesión.
 
@@ -68,45 +72,89 @@ Instalado el paquete, procedemos a cargarlo en nuestra sesión.
 library(tidyenigh)
 ```
 
-### Análisis exploratorio
+Los conjuntos de datos[^2] en `tidyenigh` vienen precargados al llamar la librería. Porque el paquete fue construido con *Lazy Loading,* tenemos acceso inmediato a todos los conjuntos de datos sin que ocupen espacio de RAM antes de llamarlas individualmente. Esta es la **gran fortaleza** de `tidyenigh`, por la que pagamos con el largo tiempo de instalación.
 
-Las hojas de datos en `tidyenigh` vienen precargadas al llamar la librería. Usando *Lazy Loading,* tenemos acceso inmediato a las hojas sin que ocupen espacio de RAM antes de llamarlas individualmente. Pero, supongamos que yo no sé en qué hoja puedo encontrar infromación del nivel educativo de las personas. Entonces, puedo usar `enigh_documentation_2022` para identificar qué conjunto de datos debo llamar.
+[^2]: Cuando hablamos de una *base de datos* nos referimos a una colección de tablas (cada una con filas y columnas) que pueden tener diferentes niveles de observacion. Por ejemplo, cuando hablo de la ENIGH 2022, me refiero a ella como una base de datos, porque consta de muchos conjuntos de datos distintos. Ahora, hablar de un *conjunto de datos* se refiere a una sola tabla dentro de una base de datos.
+
+## Análisis exploratorio
+
+Ahora tengo la ENIGH al alcance de mi RAM, sin ocuparla. Pero, yo no conozco en qué conjunto de datos está la informaicón de máximo nivel de estudios completado. Puedo usar `enigh_documentation_2022` para identificar qué conjunto de datos debo llamar. Usaré el paquete `gt` para conducir el análisis exploratorio.
 
 ```{r}
+library(gt)
+
 enigh_documentation_2022 |>
-  gt::gt()
+  gt()
 ```
 
-Encontramos las descripciones de cada una de los conjunto de datos que cofnorman la base de datos del año 2022. Parece que `poblacion2022` puede tener la infromación que busco. *Lazy Loading* me permite traérla a memoria solo llamándola:
+Encontramos la descripción de cada uno de los conjuntos de datos que conforman la base de datos del año 2022. Parece que `poblacion2022` puede tener la infromación que busco, porque me parece razonable pensar que la educación es una característica *sociodemográfica* de las personas, sea lo que eso quiera significar. De nuevo, `tidyenigh` me permite traer cualquier conjunto de datos a memoria solo llamándolo. `gt_preview()` me da una mirada dentro de los datos.
 
 ```{r}
 poblacion2022 |> 
-  gt::gt_preview()
+  gt_preview()
 ```
 
-Vemos que los valores están bien formateados, pero no sé qué significa cada variable. Afortunadamente, los conjuntos de datos en `tidyenigh` ya tienen precargado la descripción de cada variable. Puedo generar un diccionario con `gt::tab_info()`.
+Vemos que los valores están bien formateados, pero no sé qué significa cada variable. Afortunadamente, los conjuntos de datos en `tidyenigh` ya incluyen la descripción de cada variable. Puedo generar un (largo) diccionario con `gt::tab_info()`.
 
 ```{r}
 poblacion2022 |>
-  gt::gt() |>
-  gt::tab_info()
+  gt() |>
+  tab_info()
 ```
 
-¡Finalmente! Es claro que `nivelaprob` me dirá qué nivel aprobado tiene la persona entrevistada. Puedo hacer una tabla fácilmente con `gtsummary::tbl_summary()`. Este paquete tiene varias ventajas. Por ahora, me interesa porque incluye las etiquetas de las variables, de los valores y puedo modificar el idioma de los títulos con facilidad.
+`nivelaprob` me dirá qué nivel de educación tiene la persona entrevistada.
+
+## Estadística descriptiva
+
+Guiaré la estadística descriptiva usando el paquete `gtsummary`, que convenientemente, como su nombre lo indica, produce objetos `gt`. `gtsummary` fue una parte importante de la inspiración para crear `tidyenigh`. Si regresamos al diagrama de flujo, `gtsummary` facilita muchísimo la comunicación de resultados estadísticos, puesto que genera tablas *presentation-ready* [@sjoberg2023]*.* Al usar `tidyenigh` de la mano con `gtsummary` simplifico los proceso de limpieza de datos y de tablas, liberándome para enfocarme en el análisis de los datos.
+
+Bien, ahora puedo hacer una tabla fácilmente con `tbl_summary()`. Por ahora, me interesa porque incluye las etiquetas de las variables, de los valores y puedo modificar el idioma de los títulos con facilidad.
 
 ```{r}
-gtsummary::theme_gtsummary_language(language = "es")
+library(gtsummary)
+
+theme_gtsummary_language(language = "es")
 
 poblacion2022 |>
-  gtsummary::tbl_summary(include = c(nivelaprob))
+  tbl_summary(include = c(nivelaprob))
 ```
 
-Muy bien. Pero todavía no es lo que quiero. Quiero saber la cantidad de personas que que acreditaron cada uno de los niveles educativos en México, no en la encuesta. Una gran ventaja de la ENIGH es que es fácilemente expandible. Hay muchos paquetesque permiten trabajar con encuestas expandibles. `tidyenigh` tiene una función que facilita el manejo de las encuestas: `as_survey()`.
+¡Muy bien! Pero todavía no es lo que quiero. Quiero saber la cantidad de personas que que acreditaron cada uno de los niveles educativos **en México**, no en *la* *encuesta*. Una gran ventaja de la ENIGH es que es fácilemente expandible. Hay muchos paquetes que permiten trabajar con encuestas expandibles. `tidyenigh` tiene una función que facilita el manejo de las encuestas: `as_survey()` y que está diseñada para trabajar con funciones en `gtsummary`.
 
 ```{r}
 poblacion2022 |>
   as_survey() |>
-  gtsummary::tbl_svysummary(include = c(nivelaprob))
+  tbl_svysummary(include = c(nivelaprob))
 ```
+
+¡Listo! Ahora tengo la cantidad de personas que acreditaron cada uno de los niveles educativos en México.
+
+## Inferencia estadísitica
+
+Para ampliar el análisis, supongamos que tengo la hipótesis de que las mujeres tienen un nivel de educación diferente al de hombres. Puedo hacer una prueba de hipótesis agregando un argumento a la función `tbl_summary()`, y pidíendole el valor-p con `add_p()`.
+
+```{r}
+poblacion2022 |>
+  as_survey() |>
+  tbl_svysummary(
+    include = c(nivelaprob),
+    by = sexo
+  ) |>
+  add_p()
+```
+
+Puedo concluir que las mujeres en México no tienen la misma educación que los hombres.
+
+## Análisis de regresión
+
+Para el ejercicio de regresión, me interesará contestar la pregunta de cuántas horas más dedican las mujeres al cuidado de otras personas.
+
+```{r}
+reg <- lm(data = poblacion2022, hor_4 ~ sexo, weights = factor)
+
+tbl_regression(reg, intercept = T)
+```
+
+En promedio, las mujeres en México dedican 11 horas por semana al cuidado de otras personas más que los hombres, que dedican 15 horas por semana.
 
 ## Referencias

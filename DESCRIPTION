@@ -10,7 +10,7 @@ Description: LazyLoads Analysis-Ready Data From INEGI's Encuesta Nacional de Ing
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-URL: https://github.com/estebandegetau/tidyenigh
+URL: https://github.com/estebandegetau/tidyenigh, http://www.estebandegetau.com/tidyenigh/
 BugReports: https://github.com/estebandegetau/tidyenigh/issues
 Depends: 
     R (>= 4.2.0)
