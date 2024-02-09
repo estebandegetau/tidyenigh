@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 ## La ENIGH
 
-La [Encuesta Nacional de Ingresos y Gastos de los Hogares](https://www.inegi.org.mx/programas/enigh/nc/2022/) es una fuente de información muy completa sobre la composición de los hogares que integran la república mexicana. Al final, una encuesta sobre los hogares mexicanos es una encuesta sobre la población mexicana. La información de recopilada en la ENIGH ha sido útil a investigadores para evaluar, guíar y proponer política pública.
+La [Encuesta Nacional de Ingresos y Gastos de los Hogares](https://www.inegi.org.mx/programas/enigh/nc/2022/) es una fuente de información muy completa sobre la composición de los hogares que integran la república mexicana. Al final, una encuesta sobre los hogares mexicanos es una encuesta sobre la población mexicana. La información de recopilada en la ENIGH ha sido útil a investigadores para evaluar, guiar y proponer política pública.
 
 Por ejemplo, a través de la ENIGH sabemos que el Seguro Popular fue mejor atendiendo a la población rural que a la población urbana [@grogger2015], y sabemos qué características comparten entre sí los NiNis[^1] [@arceo-gómez2011]. Quizá de manera más importante, la información de la ENIGH es el insumo con el que se mide la pobreza en México [@coneval2019].
 
@@ -36,7 +36,7 @@ Por ejemplo, a través de la ENIGH sabemos que el Seguro Popular fue mejor atend
 
 ## Los datos
 
-Los datos recabados en la encuesta se procesan y se publican en la página del [INEGI](https://www.inegi.org.mx/) en formato `.zip` con cada periodo de levantamiento. A pesar de que el INEGI sigue metodologías de alto rigor para garantizar la calidad de los datos, llevarlos de su formato `.zip` por todo el procesamiento para crear un análisis profundo de la realidad mexicana lleva un arduo trabajo de limpieza, transformación, comunicación y postproducción. Responder una simple pregunta con datos se puede convertir en un gran proyecto.
+Los datos recabados en la encuesta se procesan y se publican en la página del [INEGI](https://www.inegi.org.mx/) en formato `.zip` con cada periodo de levantamiento. A pesar de que el INEGI sigue metodologías de alto rigor para garantizar la calidad de los datos, llevarlos de su formato `.zip` por todo el procesamiento para crear un análisis profundo de la realidad mexicana lleva un arduo trabajo de limpieza, transformación, comunicación y pos-producción. Responder una simple pregunta con datos se puede convertir en un gran proyecto.
 
 Un proceso de limpieza riguroso es un ejercicio necesario en cualquier procedimiento de análisis de datos. @wickham2019 presentan el siguiente diagrama de flujo en su *Introducción al Tidyverse:*
 
@@ -48,11 +48,11 @@ Como veremos, con `tidyenigh`, el proceso de importación y limpieza está hecho
 
 Abiertamente, soy un aficionado de R porque es un software abierto y poderoso que permite hacer análisis de datos que después puedan ser *reproducidos*. La reproducibilidad es una característica fundamental de cualquier análisis, puesto que transparenta la metodología y facilita análisis subsecuentes. En general, me gusta pensar que el conocimiento debe ser abierto, libre y gratuito, y R me parece una herramienta fenomenal para esto.
 
-En partidular, el `tidyverse` es un conjunto de herramientas que facilitan el procesamiento de datos en R, con un lenguaje cohesivo de verbos y adjetivos que usaremos a continuación.
+En particular, el `tidyverse` es un conjunto de herramientas que facilitan el procesamiento de datos en R, con un lenguaje cohesivo de verbos y adjetivos que usaremos a continuación.
 
 ## `tidyenigh`
 
-Cualquier pregutna que se pueda responder con datos de la ENIGH se puede responder con `tidyenigh`. Partiré de un ejemplo sencillo. Supongamos que nos interesa conocer cómo se distribuye la educación en México. En particular, quiero saber cuántas personas han logrado cada nivel de estudios. Es decir, cuántas personas hay con secundaria, preparatoria, licenciatura, etc. Sé que la ENIGH captura esta información, pero no estoy seguro cómo acceder a ella.
+Cualquier pregunta que se pueda responder con datos de la ENIGH se puede responder con `tidyenigh`. Partiré de un ejemplo sencillo. Supongamos que nos interesa conocer cómo se distribuye la educación en México. En particular, quiero saber cuántas personas han logrado cada nivel de estudios. Es decir, cuántas personas hay con secundaria, preparatoria, licenciatura, etc. Sé que la ENIGH captura esta información, pero no estoy seguro cómo acceder a ella.
 
 ### Instalación
 
@@ -64,7 +64,7 @@ Primero, instalaremos el paquete a través de [GitHub](https://github.com/esteba
 remotes::install_github("estebandegetau/tidyenigh")
 ```
 
-La **gran debilidad** de `tidyenigh` es su tiempo de instalación. ¡Puede llegar a tardar unos 15 minutos! Sin embargo, en perspectiva, 15 minutos es muy poco tiempo para importar y limpiar (y descifrar) una base de datos tan grande y compeja como la de la ENIGH.
+La **gran debilidad** de `tidyenigh` es su tiempo de instalación. ¡Puede llegar a tardar unos 15 minutos! Sin embargo, en perspectiva, 15 minutos es muy poco tiempo para importar y limpiar (y descifrar) una base de datos tan grande y compleja como la de la ENIGH.
 
 Instalado el paquete, procedemos a cargarlo en nuestra sesión.
 
@@ -72,13 +72,13 @@ Instalado el paquete, procedemos a cargarlo en nuestra sesión.
 library(tidyenigh)
 ```
 
-Los conjuntos de datos[^2] en `tidyenigh` vienen precargados al llamar la librería. Porque el paquete fue construido con *Lazy Loading,* tenemos acceso inmediato a todos los conjuntos de datos sin que ocupen espacio de RAM antes de llamarlas individualmente. Esta es la **gran fortaleza** de `tidyenigh`, por la que pagamos con el largo tiempo de instalación.
+Los conjuntos de datos[^2] en `tidyenigh` vienen pre-cargados al llamar la librería. Porque el paquete fue construido con *Lazy Loading,* tenemos acceso inmediato a todos los conjuntos de datos sin que ocupen espacio de RAM antes de llamarlas individualmente. Esta es la **gran fortaleza** de `tidyenigh`, por la que pagamos con el largo tiempo de instalación.
 
-[^2]: Cuando hablamos de una *base de datos* nos referimos a una colección de tablas (cada una con filas y columnas) que pueden tener diferentes niveles de observacion. Por ejemplo, cuando hablo de la ENIGH 2022, me refiero a ella como una base de datos, porque consta de muchos conjuntos de datos distintos. Ahora, hablar de un *conjunto de datos* se refiere a una sola tabla dentro de una base de datos.
+[^2]: Cuando hablamos de una *base de datos* nos referimos a una colección de tablas (cada una con filas y columnas) que pueden tener diferentes niveles de observación. Por ejemplo, cuando hablo de la ENIGH 2022, me refiero a ella como una base de datos, porque consta de muchos conjuntos de datos distintos. Ahora, hablar de un *conjunto de datos* se refiere a una sola tabla dentro de una base de datos.
 
 ## Análisis exploratorio
 
-Ahora tengo la ENIGH al alcance de mi RAM, sin ocuparla. Pero, yo no conozco en qué conjunto de datos está la informaicón de máximo nivel de estudios completado. Puedo usar `enigh_documentation_2022` para identificar qué conjunto de datos debo llamar. Usaré el paquete `gt` para conducir el análisis exploratorio.
+Ahora tengo la ENIGH al alcance de mi RAM, sin ocuparla. Pero, yo no conozco en qué conjunto de datos está la información de máximo nivel de estudios completado. Puedo usar `enigh_documentation_2022` para identificar qué conjunto de datos debo llamar. Usaré el paquete `gt` para conducir el análisis exploratorio.
 
 ```{r}
 library(gt)
@@ -87,7 +87,7 @@ enigh_documentation_2022 |>
   gt()
 ```
 
-Encontramos la descripción de cada uno de los conjuntos de datos que conforman la base de datos del año 2022. Parece que `poblacion2022` puede tener la infromación que busco, porque me parece razonable pensar que la educación es una característica *sociodemográfica* de las personas, sea lo que eso quiera significar. De nuevo, `tidyenigh` me permite traer cualquier conjunto de datos a memoria solo llamándolo. `gt_preview()` me da una mirada dentro de los datos.
+Encontramos la descripción de cada uno de los conjuntos de datos que conforman la base de datos del año 2022. Parece que `poblacion2022` puede tener la información que busco, porque me parece razonable pensar que la educación es una característica *sociodemográfica* de las personas, sea lo que eso quiera significar. De nuevo, `tidyenigh` me permite traer cualquier conjunto de datos a memoria solo llamándolo. `gt_preview()` me da una mirada dentro de los datos.
 
 ```{r}
 poblacion2022 |> 
