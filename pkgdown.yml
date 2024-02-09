@@ -1,0 +1,10 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  usa-r: usa-r.html
+last_built: 2024-02-09T00:24Z
+urls:
+  reference: http://www.estebandegetau.com/tidyenigh/reference
+  article: http://www.estebandegetau.com/tidyenigh/articles
+
