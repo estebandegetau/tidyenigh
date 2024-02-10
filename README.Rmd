@@ -17,11 +17,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tidyenigh
+# tidyenigh <a href="http://www.estebandegetau.com/tidyenigh/"><img src="man/figures/logo.webp" align="right" height="120" alt="tidyenigh website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/estebandegetau/tidyenigh/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/estebandegetau/tidyenigh/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
+
+
+
 
 `tidyenigh` is an R package that ships analysis-ready data from the Encuesta Nacional de Ingresos y Gastos de los Hogares [ENIGH](https://www.inegi.org.mx/programas/enigh/nc/2022/) survey in a consistent, tidy and reproducible fashion.
 
