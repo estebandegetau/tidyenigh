@@ -133,7 +133,7 @@ poblacion2022 |>
 
 Para ampliar el análisis, supongamos que tengo la hipótesis de que las mujeres tienen un nivel de educación diferente al de hombres. Puedo hacer una prueba de hipótesis agregando un argumento a la función `tbl_summary()`, y pidíendole el valor-p con `add_p()`.
 
-```{r}
+```{r, eval=FALSE}
 poblacion2022 |>
   as_survey() |>
   tbl_svysummary(
@@ -143,17 +143,42 @@ poblacion2022 |>
   add_p()
 ```
 
+```{r, echo=FALSE}
+poblacion2022 |>
+  as_survey() |>
+  tbl_svysummary(
+    include = c(nivelaprob),
+    by = sexo
+  ) |>
+  add_p() |>
+  as_gt() |>
+  as_raw_html()
+```
+
+
 Puedo concluir que las mujeres en México no tienen la misma educación que los hombres.
 
 ## Análisis de regresión
 
 Para el ejercicio de regresión, me interesará contestar la pregunta de cuántas horas más dedican las mujeres al cuidado de otras personas.
 
-```{r}
-reg <- lm(data = poblacion2022, hor_4 ~ sexo, weights = factor)
+```{r, results='hide'}
+reg <- lm(hor_4 ~ sexo,
+          weights = factor,
+          data = poblacion2022)
 
 tbl_regression(reg, intercept = T)
 ```
+
+```{r, echo=FALSE}
+
+tbl_regression(reg, intercept = T) |>
+  as_gt() |>
+  as_raw_html()
+```
+
+
+
 
 En promedio, las mujeres en México dedican 11 horas por semana al cuidado de otras personas más que los hombres, que dedican 15 horas por semana.
 
