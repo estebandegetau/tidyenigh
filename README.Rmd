@@ -74,16 +74,15 @@ Data includes variable and value labels
 ```{r, eval=FALSE}
 
 gastoshogar2016 |> 
-  gt::gt() |>
-  gt::tab_info() 
+  labelled::generate_dictionary(details = F) 
 
 ```
 
 ```{r, echo=FALSE}
 
 gastoshogar2016 |> 
+  labelled::generate_dictionary(details = F) |>
   gt::gt() |>
-  gt::tab_info() |> 
   gt::as_raw_html()
 
 ```
