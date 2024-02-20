@@ -36,8 +36,8 @@ pacman::p_load(here, devtools)
 #---- Setup --------------------------------------------------------------------
 
 years <- c(
- # 2022,
-  # 2020
+   2022,
+   2020,
    2018,
    2016
  )
@@ -52,14 +52,14 @@ years <- c(
 ._03_build_metadata      <- 1
 
 # Clean
-._01_set_labels          <- 0
+._01_set_labels          <- 1
 
 # Document data
 ._01_write_documentation <- 1
-._02_save_metadata       <- 0
+._02_save_metadata       <- 1
 
 # Build package
-._01_build_package       <- 0
+._01_build_package       <- 1
 
 #---- Run ----------------------------------------------------------------------
 
